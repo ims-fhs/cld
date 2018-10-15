@@ -1,0 +1,78 @@
+{UTF-8}
+adopters  = A FUNCTION OF( adoption rate)
+	~	
+	~		|
+
+adoption rate  = A FUNCTION OF( adopters,potential adopters)
+	~	
+	~		|
+
+potential adopters  = A FUNCTION OF( adoption rate)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,potential adopters,355,254,56,11,8,3,0,0,0,0,0,0
+10,2,adoption rate,582,253,42,11,8,3,0,0,0,0,0,0
+10,3,adopters,821,254,29,11,8,3,0,0,0,0,0,0
+1,4,2,1,1,0,0,0,0,128,0,-1--1--1,,1|(475,143)|
+1,5,1,2,1,0,0,0,0,128,0,-1--1--1,,1|(426,360)|
+1,6,2,3,1,0,0,0,0,128,0,-1--1--1,,1|(707,148)|
+1,7,3,2,1,0,0,0,0,128,0,-1--1--1,,1|(737,336)|
+12,8,0,467,295,54,11,8,7,0,0,-1,0,0,0
+market saturation
+12,9,0,685,289,47,11,8,7,0,0,-1,0,0,0
+word of mouth
+12,10,0,480,247,20,20,5,7,0,0,-1,0,0,0
+B1
+12,11,0,697,239,20,20,4,7,0,0,-1,0,0,0
+R1
+///---\\\
+:L<%^E!@
+9:Current
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:FINAL TIME
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+24:0
+25:0
+26:0
