@@ -51,6 +51,7 @@ add_polarities <- function(cld_igraph, polarity) {
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>%
 #'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
 #' plot_cld(g)
+#' # Shifting the burden
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
 #'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
 #' plot_cld(g)
@@ -58,6 +59,9 @@ add_polarities <- function(cld_igraph, polarity) {
 #' g <- g %>% add_group(external = external_intervention)
 #' plot_cld(g) + show_group(group = "internal")
 #' plot_cld(g) + show_group(group = "external")
+#' g <- g %>% add_scenario(outsourcing = c(0.25,0.75,0.25,0.5))
+#' g <- g %>% add_scenario(insourcing = c(0.25,0.25,0.75,0.75))
+#' # Adoption
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl")), edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>%
 #'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
 #' plot_cld(g)
@@ -81,4 +85,54 @@ plot_cld <- function(cld_igraph) {
 show_group <- function(mapping = NULL, data = NULL, group, color = 'red') {
   color <- ifelse(igraph::get.vertex.attribute(g, paste0("group_", group)), color, 'black')
   geom_node_text(aes(label = name, x = x, y = y), color = color)
+}
+
+
+#' Title
+#'
+#' @param cld_igraph
+#' @param scenario
+#' @param color
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' # Shifting the burden
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
+#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
+#' g <- g %>% add_scenario(outsourcing = c(0.25,0.75,0.25,0.5))
+#' g <- g %>% add_scenario(insourcing = c(0.25,0.25,0.75,0.75))
+#' plot_scenario(cld_igraph = g, scenario = "scenario_insourcing")
+#' plot_scenario(g, "scenario_insourcing", color = "black") %>%  add_trace(
+#' r = igraph::get.vertex.attribute(g, "scenario_outsourcing"),
+#' theta = names(igraph::V(g)),
+#' name = "scenario_outsourcing",
+#' marker = list(symbol = 1,
+#'               size = 10,
+#'               color = 'blue'),
+#' fill = 'toself', fillcolor = col2rgb('blue', 0.1))
+plot_scenario <- function(cld_igraph, scenario, color = 'black') {
+  library(plotly)
+  plot_ly(
+    type = 'scatterpolar',
+    mode = 'marker'
+  ) %>% add_trace(
+      r = igraph::get.vertex.attribute(cld_igraph, scenario),
+      theta = names(igraph::V(cld_igraph)),
+      name = scenario,
+      marker = list(symbol = 1,
+                    size = 10,
+                    color = color),
+      fill = 'toself', fillcolor = col2rgb(color, 0.1)) %>% config(displayModeBar = F) %>%
+    layout(
+      polar = list(
+        radialaxis = list(
+          visible = T,
+          range = c(0,1),
+          tickvals = c(.25, .75),
+          ticktext = c("min", "max")
+        )
+      )
+    )
 }
