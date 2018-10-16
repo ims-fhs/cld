@@ -25,3 +25,11 @@ add_definition <- function(.data, ...) {
   df <- merge(data.frame(name = names(igraph::V(.data)), stringsAsFactors = FALSE), df, all = TRUE, sort = FALSE)
   .data <- igraph::set_vertex_attr(.data, name = "definition", value = df$definition)
 }
+
+add_ref_mode <- function(.data, ...){
+  dots <- quos(...)
+  for (i in 1:length(dots)) {
+    .data <- igraph::set.graph.attribute(.data, names(dots[i]), dots[[i]][2])
+  }
+  return(.data)
+}

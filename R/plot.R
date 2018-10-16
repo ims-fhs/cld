@@ -152,3 +152,26 @@ plot_scenario <- function(cld_igraph, scenario, color = 'black') {
 table_definitions <- function(cld_igraph) {
   DT::datatable(data.frame(variable_names = names(igraph::V(cld_igraph)), definitions = igraph::V(cld_igraph)$definition, stringsAsFactors = FALSE))
 }
+
+#' Title
+#'
+#' @param cld_igraph
+#' @param ref_mode
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' # Shifting the burden
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
+#'   add_ref_mode(problem_symptom_hope = data.frame(time = c(0, 5,10,20,40, 100), value = c(0, 1,.9,.3,.1, 0)))
+#' plot_ref_mode(g, "problem_symptom_hope")
+plot_ref_mode <- function(cld_igraph, ref_mode) {
+  df <- eval(parse(text = igraph::get.graph.attribute(cld_igraph, ref_mode)))
+  library(ggplot2)
+  names(df) <- c("x", "y")
+  ggplot(df, aes(x, y)) +
+    geom_step(data = df[1:2,], color = 'blue', size = 1) +
+    geom_smooth(data = df[-1,], method = lm, formula = y ~ splines::bs(x, 4), se = FALSE, color = 'blue', size = 1) +
+    coord_cartesian(xlim = c(0,40))
+}
