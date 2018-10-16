@@ -54,6 +54,10 @@ add_polarities <- function(cld_igraph, polarity) {
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
 #'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
 #' plot_cld(g)
+#' g <- g %>% add_group(internal = capabilities_of_internal_actors + internal_solution)
+#' g <- g %>% add_group(external = external_intervention)
+#' plot_cld(g) + show_group(group = "internal")
+#' plot_cld(g) + show_group(group = "external")
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl")), edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>%
 #'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
 #' plot_cld(g)
