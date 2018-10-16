@@ -15,3 +15,13 @@ add_scenario <- function(.data, ...) {
   }
   return(.data)
 }
+
+add_definition <- function(.data, ...) {
+  dots <- quos(...)
+  df <- data.frame(
+    name = gsub("_", " ", names(sapply(dots, function(x){x[[2]]}))),
+    definition = sapply(dots, function(x){x[[2]]}), stringsAsFactors = FALSE
+  )
+  df <- merge(data.frame(name = names(igraph::V(.data)), stringsAsFactors = FALSE), df, all = TRUE, sort = FALSE)
+  .data <- igraph::set_vertex_attr(.data, name = "definition", value = df$definition)
+}

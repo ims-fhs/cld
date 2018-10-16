@@ -136,3 +136,19 @@ plot_scenario <- function(cld_igraph, scenario, color = 'black') {
       )
     )
 }
+
+#' Title
+#'
+#' @param cld_igraph
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' # Shifting the burden
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
+#'   add_definition(problem_symptom = "The problem as seen by the...", external_intervention = "Amount of external action...")
+#' table_definitions(g)
+table_definitions <- function(cld_igraph) {
+  DT::datatable(data.frame(variable_names = names(igraph::V(cld_igraph)), definitions = igraph::V(cld_igraph)$definition, stringsAsFactors = FALSE))
+}
