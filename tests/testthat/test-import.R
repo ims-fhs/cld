@@ -1,10 +1,18 @@
 context("import.R")
 
 test_that("read_mdl works", {
-  expect_equal(nrow(read_mdl("mdl/cld-2nodes-1edge.mdl")), 55)
-  expect_equal(nrow(read_mdl("mdl/cld-shifting-the-burden.mdl")), 67)
-  expect_equal(nrow(read_mdl("mdl/cld-adoption.mdl")), 69)
+  expect_equal(length(read_mdl("mdl/cld-2nodes-1edge.mdl")), 36)
+  expect_equal(length(read_mdl("mdl/cld-shifting-the-burden.mdl")), 49)
+  expect_equal(length(read_mdl("mdl/cld-adoption.mdl")), 51)
 })
+
+test_that("filter_functional_definitions works", {
+  expect_equal(length(filter_functional_definitions(read_mdl("mdl/cld-2nodes-1edge.mdl"))), 2)
+  expect_equal(length(filter_functional_definitions(read_mdl("mdl/cld-shifting-the-burden.mdl"))), 4)
+  expect_equal(length(filter_functional_definitions(read_mdl("mdl/cld-adoption.mdl"))), 3)
+  expect_is(filter_functional_definitions(read_mdl("mdl/cld-2nodes-1edge.mdl")), "character")
+})
+
 
 test_that("extracting vertices from cld works", {
   expect_equal(nrow(vertices(read_mdl("mdl/cld-2nodes-1edge.mdl"))), 2)
@@ -37,7 +45,13 @@ test_that("rhs works", {
 })
 
 test_that("positions works", {
-  expect_equal(positions(read_mdl("mdl/cld-2nodes-1edge.mdl")), structure(list(x = c(349, 575), y = c(187, 191)), .Names = c("x", "y"), row.names = c(NA, -2L), class = "data.frame"))
+  expect_equal(positions(read_mdl("mdl/cld-2nodes-1edge.mdl")), structure(list(x = c(349, 575), y = c(-187, -191)), .Names = c("x", "y"), row.names = c(NA, -2L), class = "data.frame"))
   print(positions(read_mdl("mdl/cld-adoption.mdl")))
   print(positions(read_mdl("mdl/cld-shifting-the-burden.mdl")))
+})
+
+test_that("polarities works", {
+  expect_equal(polarities(read_mdl("mdl/cld-2nodes-1edge.mdl")), c("+"))
+  expect_equal(polarities(read_mdl("mdl/cld-adoption.mdl")), c("+", "+", "+", "-"))
+  expect_equal(polarities(read_mdl("mdl/cld-shifting-the-burden.mdl")), c("-", "+", "+", "+", "-", "-"))
 })

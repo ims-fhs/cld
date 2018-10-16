@@ -34,6 +34,11 @@ add_positions <- function(cld_igraph, positions) {
   return(cld_igraph)
 }
 
+add_polarities <- function(cld_igraph, polarity) {
+  igraph::E(cld_igraph)$polarity <- polarity
+  return(cld_igraph)
+}
+
 
 #' Title
 #'
@@ -44,19 +49,20 @@ add_positions <- function(cld_igraph, positions) {
 #'
 #' @examples
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl")), edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
+#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
 #' plot_cld(g)
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
+#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
 #' plot_cld(g)
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
+#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
 #' plot_cld(g)
 plot_cld <- function(cld_igraph) {
   library(ggraph)
   ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
     geom_node_text(aes(label = name, x = x, y = y)) +
-    geom_edge_arc(aes(start_cap = label_rect(node1.name),
+    geom_edge_arc(aes(label = polarity,
+                      start_cap = label_rect(node1.name),
                       end_cap = label_rect(node2.name)),
                   angle_calc = 'along',
                   label_dodge = unit(2.5, 'mm'),
