@@ -7,3 +7,11 @@ add_group <- function(.data, ...) {
   }
   return(.data)
 }
+
+add_scenario <- function(.data, ...) {
+  dots <- quos(...)
+  for (i in 1:length(dots)) {
+    .data <- igraph::set_vertex_attr(.data, name = paste0("scenario_", names(dots[i])), value = eval(parse(text = as.character(dots[[i]][2]))))
+  }
+  return(.data)
+}
