@@ -83,7 +83,7 @@ plot_cld <- function(cld_igraph) {
 }
 
 show_group <- function(mapping = NULL, data = NULL, group, color = 'red') {
-  color <- ifelse(igraph::get.vertex.attribute(g, paste0("group_", group)), color, 'black')
+  color <- ifelse(igraph::get.vertex.attribute(cld, paste0("group_", group)), color, 'black')
   geom_node_text(aes(label = name, x = x, y = y), color = color)
 }
 
@@ -150,7 +150,7 @@ plot_scenario <- function(cld_igraph, scenario, color = 'black') {
 #'   add_definition(problem_symptom = "The problem as seen by the...", external_intervention = "Amount of external action...")
 #' table_definitions(g)
 table_definitions <- function(cld_igraph) {
-  DT::datatable(data.frame(variable_names = names(igraph::V(cld_igraph)), definitions = igraph::V(cld_igraph)$definition, stringsAsFactors = FALSE))
+  data.frame(variable_names = names(igraph::V(cld_igraph)), definitions = igraph::V(cld_igraph)$definition, stringsAsFactors = FALSE)
 }
 
 #' Title
