@@ -1,12 +1,20 @@
 Package: cld
 Type: Package
-Title: What the Package Does (Title Case)
+Title: A DSL to import causal loop diagrams (CLDs) from Vensim, to
+        process them further in R and to present them using various
+        visualization techniques
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Date: 2018-10-18
+Author: Adrian Staempfli
+Maintainer: Adrian Staempfli <adrian.staempfli@fhsg.ch>
+Description: Causal loop diagrams are a valuable tool for the
+        structuring of complex problems. The cld package provides a
+        domain specific lanuage (DSL) allowing to import CLDs from
+        Vensim to R in order to enrich them with suitable meta
+        information so that the CLDs can be published as small web
+        applications or RMarkdown reports.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: ggplot2, igraph, ggraph, rlang
 Suggests: testthat
