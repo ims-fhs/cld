@@ -18,4 +18,8 @@ test_that("extracting edges from cld works", {
   expect_equal(nrow(edges(read_mdl("mdl/cld-adoption.mdl"))), 4)
   expect_equal(nrow(edges(read_mdl("mdl/cld-shifting-the-burden.mdl"))), 6)
   expect_equal(nrow(edges(read_mdl("mdl/cld-2nodes-1edge.mdl"))), 1)
+  expect_equal(nrow(edges(read_mdl("mdl/flexible-arbeitszeiten-part1.mdl"))), 3)
+  expect_equal(edges(read_mdl("mdl/flexible-arbeitszeiten-part1.mdl")), structure(list(id = 4:6, from = c("1", "2", "3"), to = c(2L,
+                                                                                                                                 3L, 1L), polarity = c("+", "+", "-")), .Names = c("id", "from",
+                                                                                                                                                                                   "to", "polarity"), row.names = c(NA, 3L), class = "data.frame"))
 })

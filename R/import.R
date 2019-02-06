@@ -25,11 +25,15 @@ vertices <- function(mdl) {
 #' edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))
 #' edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))
 #' edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))
+#' edges(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten-part1.mdl"))
 edges <- function(mdl) {
+  vertices <- vertices(mdl)
   mdl <- mdl[mdl[, 1] == 1, ]
   edges <- data.frame(id = mdl[, 2], from = mdl[, 3], to = mdl[, 4], polarity = mdl[,7], stringsAsFactors = FALSE)
+  edges <- edges[edges$from %in% vertices$id & edges$to %in% vertices$id, ]
   polarity_lut <- data.frame(key = c(0,43,45), type = c("", "+", "-"), stringsAsFactors = FALSE)
   edges$polarity <- as.character(sapply(edges$polarity, function(x){polarity_lut$type[polarity_lut$key == x]}), row.names(NULL))
+
   return(edges)
 }
 

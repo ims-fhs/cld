@@ -1,0 +1,75 @@
+{UTF-8}
+"Belastung, wegen nichterledigter privater Angelegenheiten"  = A FUNCTION OF( "Möglichkeit private Dinge während der Arbeitszeit, in Pausen oder zu Randzeiten zu erledigen"\
+		)
+	~	
+	~		|
+
+Flexibilisierung der Arbeitszeiten  = A FUNCTION OF( "Belastung, wegen nichterledigter privater Angelegenheiten"\
+		)
+	~	
+	~		|
+
+"Möglichkeit private Dinge während der Arbeitszeit, in Pausen oder zu Randzeiten zu erledigen"\
+		  = A FUNCTION OF( Flexibilisierung der Arbeitszeiten)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,"Belastung, wegen nichterledigter privater Angelegenheiten",437,266,71,28,8,3,0,0,0,0,0,0
+10,2,Flexibilisierung der Arbeitszeiten,651,149,59,19,8,3,1,0,0,0,0,0
+10,3,"Möglichkeit private Dinge während der Arbeitszeit, in Pausen oder zu Randzeiten zu erledigen",699,348,111,28,8,3,2,0,0,0,0,0
+1,4,1,2,1,1,43,0,3,128,0,255-128-0,|12||0-0-0,1|(546,154)|
+1,5,2,3,1,2,43,0,2,128,0,-1--1--1,|12||0-0-0,1|(736,285)|
+1,6,3,1,1,3,45,0,2,128,0,-1--1--1,|12||0-0-0,1|(497,314)|
+12,7,1,606,245,23,23,4,3,4,0,-1,0,0,0
+1,9,8,1,1,10,45,0,2,128,0,-1--1--1,|12||0-0-0,1|(461,328)|
+1,12,11,8,0,1,0,0,0,64,0,-1--1--1,,1|(832,495)|
+///---\\\
+:L<%^E!@
+9:Current
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:"Belastung, wegen nichterledigter privater Angelegenheiten"
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+24:0
+25:0
+26:0
