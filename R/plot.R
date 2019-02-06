@@ -11,49 +11,29 @@
 #' create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
 #' create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
 create_igraph <- function(vertices, edges) {
-  g <- igraph::make_graph(edges = as.vector(t(edges)))
+  g <- igraph::make_graph(edges = as.vector(t(edges[with(edges, order(from, to)), ][2:3])))
   igraph::V(g)$name <- vertices$label
+  igraph::V(g)$x <- vertices$x
+  igraph::V(g)$y <- vertices$y
+  igraph::E(g)$polarity <- edges[with(edges, order(from, to)), ]$polarity
   return(g)
 }
 
+
 #' Title
 #'
 #' @param cld_igraph
-#' @param positions
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' library(magrittr)
-#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
-add_positions <- function(cld_igraph, positions) {
-  igraph::V(cld_igraph)$x <- positions$x
-  igraph::V(cld_igraph)$y <- positions$y
-  return(cld_igraph)
-}
-
-add_polarities <- function(cld_igraph, polarity) {
-  igraph::E(cld_igraph)$polarity <- polarity
-  return(cld_igraph)
-}
-
-
-#' Title
-#'
-#' @param cld_igraph
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
 #' plot_cld(g)
 #' # Shifting the burden
-#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
 #' plot_cld(g)
 #' g <- g %>% add_group(internal = capabilities_of_internal_actors + internal_solution)
 #' g <- g %>% add_group(external = external_intervention)
@@ -62,8 +42,7 @@ add_polarities <- function(cld_igraph, polarity) {
 #' g <- g %>% add_scenario(outsourcing = c(0.25,0.75,0.25,0.5))
 #' g <- g %>% add_scenario(insourcing = c(0.25,0.25,0.75,0.75))
 #' # Adoption
-#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl")), edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>%
-#'   add_positions(positions(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))) %>% add_polarities(polarities(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl")), edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
 #' plot_cld(g)
 #' plot_cld(g) + geom_node_text(aes(label = name, x = x, y = y), color = 'red')
 #' g <- g %>% add_group(flows = adoption_rate)
