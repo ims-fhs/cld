@@ -32,6 +32,8 @@ create_igraph <- function(vertices, edges) {
 #' library(magrittr)
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
 #' plot_cld(g)
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-comma-and-umlaut.mdl")), edges(read_mdl("tests/testthat/mdl/cld-comma-and-umlaut.mdl")))
+#' plot_cld(g)
 #' # Shifting the burden
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
 #' plot_cld(g)

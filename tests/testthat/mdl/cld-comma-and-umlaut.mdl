@@ -1,0 +1,69 @@
+{UTF-8}
+Ein anderer Variablenname  = A FUNCTION OF( "Variablenname mit Komma und Umlauten, also ä, ö, ü"\
+		)
+	~	
+	~		|
+
+"Noch ein anderer Variablenname, diesmal nur mit Komma"  = A FUNCTION OF( Ein anderer Variablenname\
+		)
+	~	
+	~		|
+
+"Variablenname mit Komma und Umlauten, also ä, ö, ü"  = A FUNCTION OF( )
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,"Variablenname mit Komma und Umlauten, also ä, ö, ü",312,239,74,28,8,3,0,0,0,0,0,0
+10,2,Ein anderer Variablenname,590,227,48,19,8,3,0,0,0,0,0,0
+1,3,1,2,1,0,43,0,2,128,0,-1--1--1,|0||-1--1--1,1|(419,135)|
+10,4,"Noch ein anderer Variablenname, diesmal nur mit Komma",442,369,87,28,8,3,0,0,0,0,0,0
+1,5,2,4,1,0,45,0,2,128,0,-1--1--1,|0||-1--1--1,1|(601,280)|
+///---\\\
+:L<%^E!@
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:FINAL TIME
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+24:0
+25:0
+26:0
