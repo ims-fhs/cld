@@ -55,14 +55,20 @@ create_igraph <- function(vertices, edges) {
 #' plot_cld(g) + show_group(group = "flows")
 plot_cld <- function(cld_igraph) {
   library(ggraph)
-  ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
-    geom_node_text(aes(label = name, x = x, y = y)) +
-    geom_edge_arc(aes(label = polarity,
-                      start_cap = label_rect(node1.name),
-                      end_cap = label_rect(node2.name)),
-                  angle_calc = 'along',
-                  label_dodge = unit(2.5, 'mm'),
-                  arrow = arrow(length = unit(4, 'mm')))
+  if (length(igraph::E(cld_igraph)) > 0) {
+    ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
+      geom_node_text(aes(label = name, x = x, y = y)) +
+      geom_edge_arc(aes(label = polarity,
+                        start_cap = label_rect(node1.name),
+                        end_cap = label_rect(node2.name)),
+                    angle_calc = 'along',
+                    label_dodge = unit(2.5, 'mm'),
+                    arrow = arrow(length = unit(4, 'mm')))
+
+  } else {
+    ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
+      geom_node_text(aes(label = name, x = x, y = y))
+  }
 }
 
 show_group <- function(mapping = NULL, data = NULL, group, color = 'red') {
