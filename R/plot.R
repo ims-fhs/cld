@@ -10,8 +10,10 @@
 #' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl")), edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl")))
 #' create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")), edges(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl")))
 #' create_igraph(vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")), edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")))
+#' create_igraph(vertices(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl")), edges(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl")))
 create_igraph <- function(vertices, edges) {
   g <- igraph::make_graph(edges = as.vector(t(edges[with(edges, order(from, to)), ][2:3])))
+  vertices <- vertices[with(vertices, order(igraph::V(g)$name)), ]
   igraph::V(g)$name <- vertices$label
   igraph::V(g)$x <- vertices$x
   igraph::V(g)$y <- vertices$y

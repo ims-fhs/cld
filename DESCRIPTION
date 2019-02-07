@@ -3,8 +3,8 @@ Type: Package
 Title: A DSL to import causal loop diagrams (CLDs) from Vensim, to
         process them further in R and to present them using various
         visualization techniques
-Version: 0.1.5
-Date: 2019-02-06
+Version: 0.1.6
+Date: 2019-02-07
 Author: Adrian Staempfli
 Maintainer: Adrian Staempfli <adrian.staempfli@fhsg.ch>
 Description: Causal loop diagrams are a valuable tool for the

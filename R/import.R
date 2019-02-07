@@ -9,6 +9,7 @@
 #' vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))
 #' vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))
 #' vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))
+#' vertices(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl"))
 vertices <- function(mdl) {
   mdl <- mdl[mdl[, 1] == 10, ]
   data.frame(id = as.numeric(mdl[, 2]), label = mdl[, 3], x = as.numeric(mdl[, 4]), y = -as.numeric(mdl[, 5]), stringsAsFactors = FALSE)
@@ -26,6 +27,7 @@ vertices <- function(mdl) {
 #' edges(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))
 #' edges(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))
 #' edges(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten-part1.mdl"))
+#' edges(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl"))
 edges <- function(mdl) {
   vertices <- vertices(mdl)
   mdl <- mdl[mdl[, 1] == 1, ]
