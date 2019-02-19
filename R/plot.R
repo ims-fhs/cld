@@ -53,6 +53,10 @@ create_igraph <- function(vertices, edges) {
 #' g <- g %>% add_group(stocks = potential_adopters + adopters)
 #' plot_cld(g) + show_group(group = "stocks")
 #' plot_cld(g) + show_group(group = "flows")
+#' # Flexible Arbeitszeiten
+#' g <- create_igraph(vertices(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl")), edges(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl")))
+#' plot_cld(g)
+#' plot_cld(g %>% argument("Belastung, wegen" %->% Flexibilisierung %->% "Möglichkeit private Dinge während"))
 plot_cld <- function(cld_igraph) {
   library(ggraph)
   if (length(igraph::E(cld_igraph)) > 0) {
@@ -63,11 +67,17 @@ plot_cld <- function(cld_igraph) {
                         end_cap = label_rect(node2.name)),
                     angle_calc = 'along',
                     label_dodge = unit(2.5, 'mm'),
-                    arrow = arrow(length = unit(4, 'mm')))
+                    arrow = arrow(length = unit(4, 'mm'))) +
+      xlim(200, 1200) +
+      ylim(-600, 0) +
+      theme_void()
 
   } else {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
-      geom_node_text(aes(label = name, x = x, y = y))
+      geom_node_text(aes(label = name, x = x, y = y)) +
+      xlim(200, 1200) +
+      ylim(-600, 0) +
+      theme_void()
   }
 }
 
