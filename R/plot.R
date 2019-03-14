@@ -61,7 +61,7 @@ plot_cld <- function(cld_igraph) {
   library(ggraph)
   if (length(igraph::E(cld_igraph)) > 0) {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
-      geom_node_text(aes(label = name, x = x, y = y, family = "Comic Sans MS")) +
+      geom_node_text(aes(label = name, x = x, y = y, family = "IndieFlower")) +
       geom_edge_arc(aes(label = polarity,
                         start_cap = label_rect(node1.name),
                         end_cap = label_rect(node2.name)),
@@ -74,7 +74,7 @@ plot_cld <- function(cld_igraph) {
 
   } else {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
-      geom_node_text(aes(label = name, x = x, y = y, family = "Comic Sans MS")) +
+      geom_node_text(aes(label = name, x = x, y = y, family = "IndieFlower")) +
       xlim(200, 1200) +
       ylim(-600, 0) +
       theme_void(base_size = 20)
