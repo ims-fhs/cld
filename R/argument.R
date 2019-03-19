@@ -15,7 +15,7 @@
 #' argument(g, "Belastung, wegen" %->% Flexibilisierung) %>% plot_cld()
 #' argument(g, Belastung %->% Flexibilisierung %->% Möglichkeit) %>% plot_cld()
 argument  <- function(.data, ...) {
-  dots <- quos(...)
+  dots <- rlang::quos(...)
   in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
   in_group <- gsub("\"", "", in_group)
   .data <- igraph::delete_vertices(.data, grep(paste(in_group, collapse = "|"), igraph::V(.data)$name, invert = TRUE, value = TRUE))
