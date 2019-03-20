@@ -17,6 +17,10 @@ create_igraph <- function(vertices, edges) {
   igraph::V(g)$name <- vertices$label
   igraph::V(g)$x <- vertices$x
   igraph::V(g)$y <- vertices$y
+  igraph::V(g)$x_min <- min(igraph::V(g)$x) - 200
+  igraph::V(g)$x_max <- max(igraph::V(g)$x) + 200
+  igraph::V(g)$y_min <- min(igraph::V(g)$y) - 200
+  igraph::V(g)$y_max <- max(igraph::V(g)$y) + 200
   igraph::E(g)$polarity <- edges[with(edges, order(from, to)), ]$polarity
   return(g)
 }
@@ -60,6 +64,7 @@ create_igraph <- function(vertices, edges) {
 plot_cld <- function(cld_igraph) {
   cld_igraph <- format_wrap_labels(cld_igraph)
   library(ggraph)
+  browser()
   if (length(igraph::E(cld_igraph)) > 0) {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
       geom_node_text(aes(label = name, x = x, y = y, family = "IndieFlower"), size = 5) +
@@ -71,15 +76,15 @@ plot_cld <- function(cld_igraph) {
                     label_colour = "darkblue",
                     color = "grey",
                     arrow = arrow(length = unit(4, 'mm'))) +
-      xlim(min(igraph::V(cld_igraph)$x) - 200, max(igraph::V(cld_igraph)$x) + 200) +
-      ylim(min(igraph::V(cld_igraph)$y) - 200, max(igraph::V(cld_igraph)$y) + 200) +
+      xlim(igraph::V(cld_igraph)$x_min[1], igraph::V(cld_igraph)$x_max[1]) +
+      ylim(igraph::V(cld_igraph)$y_min[1], igraph::V(cld_igraph)$y_max[1]) +
       theme_void()
 
   } else {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
       geom_node_text(aes(label = name, x = x, y = y, family = "IndieFlower"), size = 5) +
-      xlim(min(igraph::V(cld_igraph)$x) - 200, max(igraph::V(cld_igraph)$x) + 200) +
-      ylim(min(igraph::V(cld_igraph)$y) - 200, max(igraph::V(cld_igraph)$y) + 200) +
+      xlim(igraph::V(cld_igraph)$x_min[1], igraph::V(cld_igraph)$x_max[1]) +
+      ylim(igraph::V(cld_igraph)$y_min[1], igraph::V(cld_igraph)$y_max[1]) +
       theme_void()
   }
 }
