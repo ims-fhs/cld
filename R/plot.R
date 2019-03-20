@@ -64,7 +64,6 @@ create_igraph <- function(vertices, edges) {
 plot_cld <- function(cld_igraph) {
   cld_igraph <- format_wrap_labels(cld_igraph)
   library(ggraph)
-  browser()
   if (length(igraph::E(cld_igraph)) > 0) {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
       geom_node_text(aes(label = name, x = x, y = y, family = "IndieFlower"), size = 5) +
