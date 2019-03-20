@@ -71,15 +71,15 @@ plot_cld <- function(cld_igraph) {
                     label_colour = "darkblue",
                     color = "grey",
                     arrow = arrow(length = unit(4, 'mm'))) +
-      xlim(200, 1200) +
-      ylim(-600, 0) +
+      xlim(min(igraph::V(g)$x) - 200, max(igraph::V(g)$x) + 200) +
+      ylim(min(igraph::V(g)$y) - 200, max(igraph::V(g)$y) + 200) +
       theme_void()
 
   } else {
     ggraph(cld_igraph, layout = 'manual', node.positions = data.frame(x = igraph::V(cld_igraph)$x, y = igraph::V(cld_igraph)$y)) +
       geom_node_text(aes(label = name, x = x, y = y, family = "IndieFlower"), size = 5) +
-      xlim(200, 1200) +
-      ylim(-600, 0) +
+      xlim(min(igraph::V(g)$x) - 200, max(igraph::V(g)$x) + 200) +
+      ylim(min(igraph::V(g)$y) - 200, max(igraph::V(g)$y) + 200) +
       theme_void()
   }
 }
