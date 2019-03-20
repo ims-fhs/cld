@@ -17,10 +17,10 @@ create_igraph <- function(vertices, edges) {
   igraph::V(g)$name <- vertices$label
   igraph::V(g)$x <- vertices$x
   igraph::V(g)$y <- vertices$y
-  igraph::V(g)$x_min <- min(igraph::V(g)$x) - 200
-  igraph::V(g)$x_max <- max(igraph::V(g)$x) + 200
-  igraph::V(g)$y_min <- min(igraph::V(g)$y) - 200
-  igraph::V(g)$y_max <- max(igraph::V(g)$y) + 200
+  igraph::V(g)$x_min <- min(igraph::V(g)$x) - 150
+  igraph::V(g)$x_max <- max(igraph::V(g)$x) + 150
+  igraph::V(g)$y_min <- min(igraph::V(g)$y) - 150
+  igraph::V(g)$y_max <- max(igraph::V(g)$y) + 150
   igraph::E(g)$polarity <- edges[with(edges, order(from, to)), ]$polarity
   return(g)
 }
