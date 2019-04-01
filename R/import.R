@@ -75,6 +75,7 @@ import <- function(file) {
   vertices <- vertices(mdl)
   edges <- edges(mdl)
   cld <- merge(vertices, edges, all = TRUE)
+  cld$from <- as.numeric(cld$from)
   cld$description <- NA
   cld$selected <- TRUE
   return(cld)
