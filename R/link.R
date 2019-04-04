@@ -10,17 +10,21 @@
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' cld %>% link(`energy level`)
 #' cld %>% link(`hours` %->%`energy`)
+#' (cld %>% link(`hours` %->%`energy`))$group
 #' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`)
 #' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`)
+#' (cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`))$group
+#' cld %>% link(`hours` %->%`energy`) %>% link(`energy`)
+#' (cld %>% link(`hours` %->%`energy`) %>% link(`energy`))$group
 #' cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
 link  <- function(.data, ...) {
-  browser()
   chains <- rlang::enexprs(...)
+  indexes <- integer(0)
   for(i in 1:length(chains)) {
     chain <- rlang::as_label(chains[[i]])
-    indexes <- c(vars(.data, chain), links(.data, chain))
-    .data$group <- group(.data$group, indexes)
+    indexes <- c(indexes, vars(.data, chain), links(.data, chain))
   }
+  .data$group <- group(.data$group, indexes)
   return(.data)
   # in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
   # in_group <- gsub("[\"|\`]", "", in_group)
@@ -30,9 +34,19 @@ link  <- function(.data, ...) {
   # .data[ from = igraph::V(.data)$name[length(in_group)], to = igraph::V(.data)$name[1]] <- 0
 }
 
+#' vars
+#'
+#' @param .data
+#' @param chain
+#'
+#' @return
+#'
+#' @examples
+#' cld <- import("tests/testthat/mdl/burnout.mdl")
+#' vars(cld, "hours %->% energy")
+#' vars(cld, "energy %->% hours")
 vars <- function(.data, chain) {
-  names <- trimws(unlist(strsplit(chain, "%->%")))
-  indexes <- grep(paste(names, collapse = "|"), .data$label)
+  indexes <- as.numeric(sapply(trimws(unlist(strsplit(chain, "%->%"))), function(i) grep(i, .data$label)))
   assertthat::assert_that(length(indexes) <= nrow(.data))
   assertthat::assert_that(all(.data$type[indexes] == "var"))
   return(indexes)

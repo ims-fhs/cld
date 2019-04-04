@@ -19,7 +19,6 @@ test_that("vars works", {
   expect_equal(vars(cld, "hours"), 8)
   expect_equal(vars(cld, "hours %->% energy"), c(8,10))
   expect_equal(vars(cld, "perceived %->% energy"), c(9,10))
-  expect_equal(vars(cld, ""), c(7:10))
   expect_error(vars(cld, NA))
 })
 
@@ -30,3 +29,11 @@ test_that("links works", {
   expect_equal(links(cld, "energy %->% accomplishments per week"), 5)
 })
 
+context("link")
+
+test_that("link works", {
+  cld <- import("mdl/burnout.mdl")
+  expect_equal((cld %>% link(hours %->% energy))$group, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 2))
+  expect_equal((cld %>% link(hours %->% energy) %>% link(energy))$group, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 3))
+  expect_equal((cld %>% link(hours %->% energy, perceived %->% energy) %>% link(energy))$group, c(1, 1, 1, 2, 1, 2, 1, 2, 2, 3))
+})
