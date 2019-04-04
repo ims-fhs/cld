@@ -1,5 +1,5 @@
 {UTF-8}
-Ein anderer Variablenname  = A FUNCTION OF( "Variablenname mit Komma und Umlauten, also ä, ö, ü"\
+Ein anderer Variablenname  = A FUNCTION OF( "Variablenname mit Komma und Umlauten, also ä, ö, ü und dem ominösen -"\
 		)
 	~	
 	~		|
@@ -9,7 +9,8 @@ Ein anderer Variablenname  = A FUNCTION OF( "Variablenname mit Komma und Umlaute
 	~	
 	~		|
 
-"Variablenname mit Komma und Umlauten, also ä, ö, ü"  = A FUNCTION OF( )
+"Variablenname mit Komma und Umlauten, also ä, ö, ü und dem ominösen -"  = A FUNCTION OF\
+		( )
 	~	
 	~		|
 
@@ -30,7 +31,7 @@ INITIAL TIME  = 0
 	|
 
 SAVEPER  = 
-        TIME STEP 
+        TIME STEP
 	~	Month [0,?]
 	~	The frequency with which output is stored.
 	|
@@ -44,11 +45,11 @@ TIME STEP  = 1
 V300  Do not put anything below this section - it will be ignored
 *View 1
 $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
-10,1,"Variablenname mit Komma und Umlauten, also ä, ö, ü",312,239,74,28,8,3,0,0,0,0,0,0
+10,1,"Variablenname mit Komma und Umlauten, also ä, ö, ü und dem ominösen -",312,239,100,28,8,3,0,0,0,0,0,0
 10,2,Ein anderer Variablenname,590,227,48,19,8,3,0,0,0,0,0,0
-1,3,1,2,1,0,43,0,2,128,0,-1--1--1,|0||-1--1--1,1|(419,135)|
+1,3,1,2,1,0,43,0,2,128,0,-1--1--1,|12||0-0-0,1|(419,135)|
 10,4,"Noch ein anderer Variablenname, diesmal nur mit Komma",442,369,87,28,8,3,0,0,0,0,0,0
-1,5,2,4,1,0,45,0,2,128,0,-1--1--1,|0||-1--1--1,1|(601,280)|
+1,5,2,4,1,0,45,0,2,128,0,-1--1--1,|12||0-0-0,1|(601,280)|
 ///---\\\
 :L<%^E!@
 9:Current
@@ -56,7 +57,7 @@ $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,1
 19:100,0
 27:0,
 34:0,
-5:FINAL TIME
+5:"Variablenname mit Komma und Umlauten, also ä, ö, ü und dem ominösen -"
 35:Date
 36:YYYY-MM-DD
 37:2000

@@ -20,6 +20,22 @@ test_that("extracting edges from cld works", {
   expect_equal(nrow(edges(read_mdl("mdl/cld-2nodes-1edge.mdl"))), 1)
   expect_equal(nrow(edges(read_mdl("mdl/flexible-arbeitszeiten-part1.mdl"))), 3)
   # expect_equal(edges(read_mdl("mdl/flexible-arbeitszeiten-part1.mdl")), structure(list(id = 4:6, from = c("1", "2", "3"), to = c(2L,
-                                                                                                                                 # 3L, 1L), polarity = c("+", "+", "-")), .Names = c("id", "from",
-                                                                                                                                                                                   # "to", "polarity"), row.names = c(NA, 3L), class = "data.frame"))
+                                                                                                                                 # 3L, 1L), polarity = c("+", "+", "-")), .Names = c("id", "from"                                                                                                                                                                             # "to", "polarity"), row.names = c(NA, 3L), class = "data.frame"))
+})
+
+test_that("extracting loops from cld works", {
+  loops <- loops(read_mdl("mdl/burnout.mdl"))
+  expect_equal(nrow(loops), 3)
+  expect_equal(ncol(loops), 6)
+  expect_equal(length(loops$polarity[loops$polarity == "R"]), 2)
+  expect_equal(length(loops$direction[loops$direction == "counter"]), 2)
+})
+
+test_that("import works", {
+  cld <- import("mdl/burnout.mdl")
+  expect_equal(nrow(cld), 10)
+  expect_equal(ncol(cld), 9)
+  expect_equal(names(cld), c("type", "id", "x", "y", "label", "from", "to", "polarity",
+                                                   "group"))
+  expect_is(cld, "cld")
 })

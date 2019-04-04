@@ -19,7 +19,7 @@ link  <- function(.data, ...) {
   in_group <- gsub("[\"|\`]", "", in_group)
   .data$selected <- grepl(paste(in_group, collapse = "|"), .data$label)
   .data <- select_links(.data)
-  .data <- igraph::delete_vertices(.data, grep(paste(in_group, collapse = "|"), igraph::V(.data)$name, invert = TRUE, value = TRUE))
+  # .data <- igraph::delete_vertices(.data, grep(paste(in_group, collapse = "|"), igraph::V(.data)$name, invert = TRUE, value = TRUE))
   # .data[ from = igraph::V(.data)$name[length(in_group)], to = igraph::V(.data)$name[1]] <- 0
   .data
 }
@@ -28,10 +28,16 @@ select_links <- function(.data) {
   vars <- .data[.data$type == "var" & .data$selected, ]
   links <- .data[.data$type == "link", ]
   browser()
-  for(i in seq_along(vars)) {
-    var_links <- links[links$from == vars$id[i], ]
+  for(i in seq_along(vars$id)) {
+    var_links <- links[links$from == i, ]
     var_links <- var_links[var_links$to %in% vars$id, ]
-    var_links$selected <- TRUE
-    .data[.data$id == var_links$id, ] <- var_links
+    if ( nrow(var_links) > 0) {
+      var_links$selected <- TRUE
+      .data[.data$id == var_links$id, ] <- var_links
+
     }
+  }
+  return(.data)
 }
+
+
