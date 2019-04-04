@@ -20,6 +20,7 @@ test_that("vars works", {
   expect_equal(vars(cld, "hours %->% energy"), c(8,10))
   expect_equal(vars(cld, "perceived %->% energy"), c(9,10))
   expect_error(vars(cld, NA))
+  expect_error(vars(cld, "a %-> e"))
 })
 
 test_that("links works", {
@@ -36,4 +37,6 @@ test_that("link works", {
   expect_equal((cld %>% link(hours %->% energy))$group, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 2))
   expect_equal((cld %>% link(hours %->% energy) %>% link(energy))$group, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 3))
   expect_equal((cld %>% link(hours %->% energy, perceived %->% energy) %>% link(energy))$group, c(1, 1, 1, 2, 1, 2, 1, 2, 2, 3))
+  expect_error(cld %>% link(`hours` %->% `accomplishments` %->% `perceived` %->% `hours`))
+  expect_equal(sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$group), 16)
 })

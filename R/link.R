@@ -16,12 +16,14 @@
 #' (cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`))$group
 #' cld %>% link(`hours` %->%`energy`) %>% link(`energy`)
 #' (cld %>% link(`hours` %->%`energy`) %>% link(`energy`))$group
-#' cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
+#' # cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
+#' cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`)
+#' sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$group)
 link  <- function(.data, ...) {
   chains <- rlang::enexprs(...)
   indexes <- integer(0)
   for(i in 1:length(chains)) {
-    chain <- rlang::as_label(chains[[i]])
+    chain <- gsub("\\`", "", rlang::as_label(chains[[i]]))
     indexes <- c(indexes, vars(.data, chain), links(.data, chain))
   }
   .data$group <- group(.data$group, indexes)
@@ -45,8 +47,11 @@ link  <- function(.data, ...) {
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' vars(cld, "hours %->% energy")
 #' vars(cld, "energy %->% hours")
+#' # vars(cld, "a %->% e")
 vars <- function(.data, chain) {
-  indexes <- as.numeric(sapply(trimws(unlist(strsplit(chain, "%->%"))), function(i) grep(i, .data$label)))
+  indexes <- sapply(trimws(unlist(strsplit(chain, "%->%"))), function(i) grep(i, .data$label))
+  assertthat::assert_that(!class(indexes) == "list", msg = "Link chain contains ambiguous variable names. Not able to resolve.")
+  indexes <- as.numeric(indexes)
   assertthat::assert_that(length(indexes) <= nrow(.data))
   assertthat::assert_that(all(.data$type[indexes] == "var"))
   return(indexes)
