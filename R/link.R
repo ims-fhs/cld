@@ -7,21 +7,34 @@
 #'
 #' @examples
 #' library(magrittr)
-#' cld <- import("tests/testthat/mdl/flexible-arbeitszeiten-part1.mdl")
-#' cld %>% link(`Belastung, wegen`)
-#' cld %>% link(Belastung %->% Flexibilisierung)
-#' argument(g, "Belastung, wegen" %->% Flexibilisierung) %>% plot_cld()
-#' argument(g, Belastung %->% Flexibilisierung %->% Möglichkeit) %>% plot_cld()
+#' cld <- import("tests/testthat/mdl/burnout.mdl")
+#' cld %>% link(`energy level`)
+#' cld %>% link(`hours` %->%`energy`)
+#' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`)
+#' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`)
+#' cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
 link  <- function(.data, ...) {
   browser()
-  dots <- rlang::quos(...)
-  in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
-  in_group <- gsub("[\"|\`]", "", in_group)
-  .data$selected <- grepl(paste(in_group, collapse = "|"), .data$label)
-  .data <- select_links(.data)
+  chains <- rlang::enexprs(...)
+  for(i in 1:length(chains)) {
+    chain <- rlang::as_label(chains[[i]])
+    indexes <- c(vars(.data, chain), links(.data, chain))
+    .data$group <- group(.data$group, indexes)
+  }
+  return(.data)
+  # in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
+  # in_group <- gsub("[\"|\`]", "", in_group)
+  # .data$selected <- grepl(paste(in_group, collapse = "|"), .data$label)
+  # .data <- select_links(.data)
   # .data <- igraph::delete_vertices(.data, grep(paste(in_group, collapse = "|"), igraph::V(.data)$name, invert = TRUE, value = TRUE))
   # .data[ from = igraph::V(.data)$name[length(in_group)], to = igraph::V(.data)$name[1]] <- 0
-  .data
+}
+
+vars <- function(.data, chain) {
+  browser()
+  names <- trimws(unlist(strsplit(chain, "%->%")))
+  indexes <- grep(paste(names, collapse = "|"), .data$label)
+  return(indexes)
 }
 
 #' select_links
