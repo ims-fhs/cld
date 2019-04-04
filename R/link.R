@@ -31,10 +31,32 @@ link  <- function(.data, ...) {
 }
 
 vars <- function(.data, chain) {
-  browser()
   names <- trimws(unlist(strsplit(chain, "%->%")))
   indexes <- grep(paste(names, collapse = "|"), .data$label)
+  assertthat::assert_that(length(indexes) <= nrow(.data))
+  assertthat::assert_that(all(.data$type[indexes] == "var"))
   return(indexes)
+}
+
+
+#' links
+#'
+#' @param .data
+#' @param chain
+#'
+#' @return
+#'
+#' @examples
+#' cld <- import("tests/testthat/mdl/burnout.mdl")
+#' links(cld, "hours %->% energy")
+#' links(cld, "perceived %->% energy")
+#' links(cld, "energy %->% accomplishments per week")
+links <- function(.data, chain) {
+  vars <- vars(.data, chain)
+  links <- data.frame(from = vars[-length(vars)], to = vars[-1], stringsAsFactors = FALSE)
+  links$from <- .data$id[links$from]
+  links$to <- .data$id[links$to]
+  return(which(.data$from %in% links$from & .data$to %in% links$to))
 }
 
 #' select_links
