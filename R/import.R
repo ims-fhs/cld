@@ -6,10 +6,11 @@
 #' @export
 #'
 #' @examples
-#' vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))
+#' vertices(read_mdl("tests/testthat/mdl/cld-2nodes-1edge.mdl"))$label
 #' vertices(read_mdl("tests/testthat/mdl/cld-adoption.mdl"))
 #' vertices(read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl"))
 #' vertices(read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl"))
+#' vertices(read_mdl("tests/testthat/mdl/cld-comma-and-umlaut.mdl"))$label
 vertices <- function(mdl) {
   mdl <- mdl[mdl[, 1] == 10, ]
   data.frame(type = "var", id = as.numeric(mdl[, 2]), label = mdl[, 3], x = as.numeric(mdl[, 4]), y = -as.numeric(mdl[, 5]), stringsAsFactors = FALSE)
@@ -40,6 +41,17 @@ edges <- function(mdl) {
   return(edges)
 }
 
+
+loops <- function(mdl) {
+  mdl <- mdl[mdl[, 1] == 12 & mdl[, 3] %in% c(1,2), ]
+  loops <- data.frame(type = "loop", id = mdl[, 2], x = as.numeric(mdl[, 4]), y = -as.numeric(mdl[, 5]), polarity = mdl[,8], direction = mdl[,3], stringsAsFactors = FALSE)
+  polarity_lut <- data.frame(key = c(4, 5), type = c("B", "R"), stringsAsFactors = FALSE)
+  loops$polarity <- as.character(sapply(loops$polarity, function(x){polarity_lut$type[polarity_lut$key == x]}), row.names(NULL))
+  direction_lut <- data.frame(key = c(1, 2), type = c("clock", "counter"), stringsAsFactors = FALSE)
+  loops$direction <- as.character(sapply(loops$direction, function(x){direction_lut$type[direction_lut$key == x]}), row.names(NULL))
+  return(loops)
+}
+
 #' read_mdl
 #'
 #' @param file path to a valid Vensim .mdl file containing a CLD
@@ -52,6 +64,7 @@ edges <- function(mdl) {
 #' read_mdl("tests/testthat/mdl/cld-adoption.mdl")
 #' read_mdl("tests/testthat/mdl/cld-shifting-the-burden.mdl")
 #' read_mdl("tests/testthat/mdl/cld-comma-and-umlaut.mdl")
+#' read_mdl("tests/testthat/mdl/flexible-arbeitszeiten.mdl")
 read_mdl <- function(file) {
   mdl <- readLines(file, encoding = "UTF-8")
   mdl <- mdl[lapply(strsplit(mdl, ","), length) >= 13]
@@ -70,13 +83,17 @@ read_mdl <- function(file) {
 #' import("tests/testthat/mdl/cld-adoption.mdl")
 #' import("tests/testthat/mdl/cld-shifting-the-burden.mdl")
 #' import("tests/testthat/mdl/cld-comma-and-umlaut.mdl")
+#' import("tests/testthat/mdl/burnout.mdl")
 import <- function(file) {
   mdl <- read_mdl(file)
   vertices <- vertices(mdl)
   edges <- edges(mdl)
   cld <- merge(vertices, edges, all = TRUE)
   cld$from <- as.numeric(cld$from)
-  cld$description <- NA
-  cld$selected <- TRUE
+  cld$group <- 0L
+  class(cld) <- c("cld", class(cld))
+  assertthat::assert_that(nrow(cld) >= 3)
+  assertthat::assert_that(ncol(cld) == 9)
+  assertthat::assert_that(!any(grepl("\"", cld$label)))
   return(cld)
 }
