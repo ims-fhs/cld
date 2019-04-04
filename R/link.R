@@ -24,6 +24,13 @@ link  <- function(.data, ...) {
   .data
 }
 
+#' select_links
+#'
+#' @param .data
+#'
+#' @return
+#'
+#' @examples
 select_links <- function(.data) {
   vars <- .data[.data$type == "var" & .data$selected, ]
   links <- .data[.data$type == "link", ]
@@ -41,3 +48,38 @@ select_links <- function(.data) {
 }
 
 
+#' group
+#'
+#' @param grouping
+#' @param indexes A vector of indexes that form a new group
+#'
+#' @return
+#'
+#' @examples
+#' cld:::group(c(1,1,1,1), c(2,3))
+#' cld:::group(c(1,2,2,1,1), c(1,4))
+#' # cld:::group(c(1,2,2,1,1), c(6))
+#' # cld:::group(c(1,2,2,1,1), c(0))
+#' cld:::group(c(1,2), c(1,2))
+group <- function(grouping, indexes) {
+  assertthat::assert_that(is.numeric(grouping))
+  assertthat::assert_that(is.numeric(indexes))
+  assertthat::assert_that(max(indexes) <= length(grouping))
+  new_grouping <- grouping
+  new_grouping[indexes] <- max(new_grouping) + 1L
+  assertthat::assert_that(sum(new_grouping) > sum(grouping))
+  new_grouping <- new_grouping - (min(new_grouping - 1))
+  return(new_grouping)
+}
+
+#' ungroup
+#'
+#' @param grouping
+#'
+#' @return
+#'
+#' @examples
+#' cld:::ungroup(c(1,2,3))
+ungroup <- function(grouping) {
+  group(grouping, 1:length(grouping))
+}
