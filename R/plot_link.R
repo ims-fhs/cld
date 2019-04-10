@@ -18,28 +18,28 @@ link_coordinates <- function(cld) {
   return(cld)
 }
 
-StatLink <- ggplot2::ggproto("StatLink",
-                            ggplot2::Stat,
-                            setup_data = function(data, params){
-                              data <- link_coordinates(data)
-                              data <- data[data$type == "link", ]
-                              print(data)
-                            },
-                            compute_group = function(data, scales) {
-                              print(data)
-                            }
-)
-
-stat_link <- function(mapping = NULL, data = NULL, geom = "link",
-                     position = "identity", na.rm = FALSE, show.legend = NA,
-                     inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    stat = StatLink, data = data, mapping = mapping, geom = geom,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
-
+# StatLink <- ggplot2::ggproto("StatLink",
+#                             ggplot2::Stat,
+#                             setup_data = function(data, params){
+#                               data <- link_coordinates(data)
+#                               data <- data[data$type == "link", ]
+#                               print(data)
+#                             },
+#                             compute_group = function(data, scales) {
+#                               print(data)
+#                             }
+# )
+#
+# stat_link <- function(mapping = NULL, data = NULL, geom = "link",
+#                      position = "identity", na.rm = FALSE, show.legend = NA,
+#                      inherit.aes = TRUE, ...) {
+#   ggplot2::layer(
+#     stat = StatLink, data = data, mapping = mapping, geom = geom,
+#     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+#     params = list(na.rm = na.rm, ...)
+#   )
+# }
+#
 
 # include type as a required aesthetic mapping in GeomLink
 GeomLink <- ggplot2::ggproto("GeomLink", ggplot2::GeomCurve,
@@ -47,15 +47,20 @@ GeomLink <- ggplot2::ggproto("GeomLink", ggplot2::GeomCurve,
                             default_aes = ggplot2::aes(id = id, x = x, y = y, from = from, to = to, polarity = polarity, type = type, group = group, colour = "black",
                                                        size = 4, angle = 0, hjust = 0.5, vjust = 0.5,
                                                        alpha = NA, fontface = 1,
-                                                       lineheight = 1.2, length = 10))
+                                                       lineheight = 1.2, length = 10),
+                            setup_data = function(data, params){
+                              data <- link_coordinates(data)
+                              data <- data[data$type == "link", ]
+                              print(data)
+                            })
 
 
-geom_link <- function(mapping = ggplot2::aes(id = id, from = from, to = to, polarity = polarity, type = type), data = NULL, position = "identity",
+geom_link <- function(mapping = ggplot2::aes(x = from_x, y = from_y, xend = to_x, yend = to_y, id = id, from = from, to = to, polarity = polarity, type = type), data = NULL, position = "identity", stat = "identity",
                      ..., curvature = 0.5, angle = 90, ncp = 5, arrow = NULL,
                      arrow.fill = NULL, lineend = "butt", na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE)
 {
-  ggplot2::layer(data = data, mapping = mapping, stat = StatLink, geom = GeomLink,
+  ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomLink,
                  position = position, show.legend = show.legend, inherit.aes = inherit.aes,
                  params = list(arrow = arrow, arrow.fill = arrow.fill,
                                curvature = curvature, angle = angle, ncp = ncp,
