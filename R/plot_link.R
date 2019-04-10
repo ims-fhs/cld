@@ -25,11 +25,8 @@ StatLink <- ggplot2::ggproto("StatLink",
                               data <- data[data$type == "link", ]
                               print(data)
                             },
-                            compute_group = function(data, scales, length = 5) {
-                              data$label <- sapply(data$label,
-                                                   function(x) {paste0(strwrap(x, width = length),
-                                                                       collapse = "\n")})
-                              data
+                            compute_group = function(data, scales) {
+                              print(data)
                             }
 )
 
@@ -54,11 +51,13 @@ GeomLink <- ggplot2::ggproto("GeomLink", ggplot2::GeomCurve,
 
 
 geom_link <- function(mapping = ggplot2::aes(id = id, from = from, to = to, polarity = polarity, type = type), data = NULL, position = "identity",
-                     ..., parse = FALSE, nudge_x = 0, nudge_y = 0, check_overlap = FALSE,
-                     na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+                     ..., curvature = 0.5, angle = 90, ncp = 5, arrow = NULL,
+                     arrow.fill = NULL, lineend = "butt", na.rm = FALSE, show.legend = NA,
+                     inherit.aes = TRUE)
 {
   ggplot2::layer(data = data, mapping = mapping, stat = StatLink, geom = GeomLink,
                  position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = list(na.rm = na.rm, ...))
+                 params = list(arrow = arrow, arrow.fill = arrow.fill,
+                               curvature = curvature, angle = angle, ncp = ncp,
+                               lineend = lineend, na.rm = na.rm, ...))
 }
-
