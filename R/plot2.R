@@ -14,12 +14,13 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' vars <- cld[cld$type == "var", ]
 #' ggplot(as.data.frame(vars), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
 #' ggplot(as.data.frame(cld), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
 #' ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + theme_void()
-#' ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + theme_void()
+#' ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + geom_link() + theme_void()
 #' plot(cld)
 plot.cld <- function(cld) {
   cld <- as.data.frame(cld)
