@@ -32,6 +32,7 @@ plot.cld <- function(cld) {
   cld <- as.data.frame(cld)
   cld <- link_coordinates(cld)
   cld <- curvature(cld)
+  cld <- offset(cld)
   links <- cld[cld$type == "link", ]
   gg <- ggplot(data = cld, aes(x, y, colour = as.factor(division))) +
     lapply(split(cld, 1:nrow(cld)), function(dat) {

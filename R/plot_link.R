@@ -18,6 +18,21 @@ curvature <- function(cld) {
   return(cld)
 }
 
+offset <- function(cld) {
+  assertthat::assert_that(all(c("from_x", "from_y", "to_x", "to_y") %in% colnames(cld)))
+  library(dplyr)
+  off_x <- 10
+  off_y <- 5
+  cld <- cld %>% mutate(
+      from_x = if_else(to_x > from_x, from_x + off_x, from_x - off_x),
+      to_x = if_else(to_x > from_x, to_x - off_x, to_x + off_x),
+
+      from_y = if_else(to_y > from_y, from_y + off_y, from_y - off_y),
+      to_y = if_else(to_y > from_y, to_y - off_y, to_y + off_y),
+  )
+  return(cld)
+}
+
 
 #' link_coordinates
 #'
