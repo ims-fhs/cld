@@ -23,6 +23,9 @@
 #' # ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + geom_link() + theme_void()
 #' plot(cld)
 #' cld %>% describe(type = "text", "blabla") %>% plot()
+#' cld %>% link(`energy`) %>% describe(type = "text", "blabla") %>% plot()
+#' cld %>% link(`energy` %->% `accomplishments per`) %>% describe(type = "text", "blabla") %>% plot()
+#' cld %>% link(`energy` %->% `accomplishments per` %->% `perceived`) %>% link(`perceived`) %>% plot()
 #' cld %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
 #' cld %>% describe(type = "text", "blabla") %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
 plot.cld <- function(cld) {
@@ -30,11 +33,11 @@ plot.cld <- function(cld) {
   cld <- link_coordinates(cld)
   cld <- curvature(cld)
   links <- cld[cld$type == "link", ]
-  gg <- ggplot(data = cld, aes(x, y)) + geom_var() +
+  gg <- ggplot(data = cld, aes(x, y, colour = as.factor(division))) + geom_var() +
     lapply(split(cld, 1:nrow(cld)), function(dat) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
-                 arrow = arrow(length = unit(0.03, "npc"))) }
-    ) + theme_void()
+                 arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE) }
+    ) + scale_colour_manual(values = wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]) + theme_void()
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
   # ggplot(data = cld, aes(x, y)) + geom_var() +

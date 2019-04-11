@@ -12,7 +12,7 @@ StatVar <- ggplot2::ggproto("StatVar",
 )
 
 stat_var <- function(mapping = NULL, data = NULL, geom = "var",
-                     position = "identity", na.rm = FALSE, show.legend = NA,
+                     position = "identity", na.rm = FALSE, show.legend = FALSE,
                      inherit.aes = TRUE, ...) {
   ggplot2::layer(
     stat = StatVar, data = data, mapping = mapping, geom = geom,
@@ -33,7 +33,7 @@ GeomVar <- ggplot2::ggproto("GeomVar", ggplot2::GeomText,
 
 geom_var <- function(mapping = ggplot2::aes(label = label, type = type), data = NULL, position = "identity",
                      ..., parse = FALSE, nudge_x = 0, nudge_y = 0, check_overlap = FALSE,
-                     na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+                     na.rm = FALSE, show.legend = FALSE, inherit.aes = TRUE)
 {
   ggplot2::layer(data = data, mapping = mapping, stat = StatVar, geom = GeomVar,
                  position = position, show.legend = show.legend, inherit.aes = inherit.aes,
