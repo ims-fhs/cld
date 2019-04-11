@@ -1,35 +1,23 @@
-# add_group <- function(.data, ...) {
-#   dots <- quos(...)
-#   for (i in 1:length(dots)) {
-#     in_group <- as.character(dots[[i]])[2]
-#     vec <- gsub("_", " ", trimws(unlist(strsplit(in_group, "[+]"))))
-#     .data <- igraph::set_vertex_attr(.data, name = paste0("group_", names(dots[i])), value = sapply(names(igraph::V(.data)), function(x){x %in% vec}))
-#   }
-#   return(.data)
-# }
-#
-# add_scenario <- function(.data, ...) {
-#   dots <- quos(...)
-#   for (i in 1:length(dots)) {
-#     .data <- igraph::set_vertex_attr(.data, name = paste0("scenario_", names(dots[i])), value = eval(parse(text = as.character(dots[[i]][2]))))
-#   }
-#   return(.data)
-# }
-#
-# add_definition <- function(.data, ...) {
-#   dots <- quos(...)
-#   df <- data.frame(
-#     name = gsub("_", " ", names(sapply(dots, function(x){x[[2]]}))),
-#     definition = sapply(dots, function(x){x[[2]]}), stringsAsFactors = FALSE
-#   )
-#   df <- merge(data.frame(name = names(igraph::V(.data)), stringsAsFactors = FALSE), df, all = TRUE, sort = FALSE)
-#   .data <- igraph::set_vertex_attr(.data, name = "definition", value = df$definition)
-# }
-#
-# add_ref_mode <- function(.data, ...){
-#   dots <- quos(...)
-#   for (i in 1:length(dots)) {
-#     .data <- igraph::set.graph.attribute(.data, names(dots[i]), dots[[i]][2])
-#   }
-#   return(.data)
-# }
+#' annotate_ref_mode
+#'
+#' @param gg
+#' @param cld
+#'
+#' @return
+#' @import ggplot2
+#'
+#' @examples
+#' library(ggplot2)
+#' cld <- import("tests/testthat/mdl/burnout.mdl")
+#' ggplot(data = as.data.frame(cld), aes(x, y)) + geom_text(aes(label = label))
+#' # annotate_ref_mode(ggplot2::ggplot(aes(x, y)), cld)
+#' cld <- cld %>% describe(type = "ref_mode", 0/0 %-% 1/1)
+#' cld <- as.data.frame(cld)
+#' gg <- ggplot(data = cld, aes(x, y)) + geom_text(aes(label = label))
+#' gg
+#' gg + annotate_ref_mode(gg, cld)
+annotate_ref_mode <- function(gg, cld) {
+  ref_mode <- cld$description[cld$type == "description_ref_mode"]
+  assertthat::assert_that(length(ref_mode) == 1, msg = paste0("You provided ", length(ref_mode), " ref_modes, whereas annotate_ref_mode needs exactly 1 ref_mode."))
+  return(annotation_custom(ggplotGrob(eval(parse(text = ref_mode))), xmin = mean(cld$x, na.rm = TRUE), ymin = mean(cld$y, na.rm = TRUE)))
+}

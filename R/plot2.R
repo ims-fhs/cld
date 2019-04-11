@@ -16,14 +16,15 @@
 #' @examples
 #' library(ggplot2)
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
-#' vars <- cld[cld$type == "var", ]
-#' ggplot(as.data.frame(vars), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
-#' ggplot(as.data.frame(cld), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
-#' ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + theme_void()
-#' ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + geom_link() + theme_void()
+#' # vars <- cld[cld$type == "var", ]
+#' # ggplot(as.data.frame(vars), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
+#' # ggplot(as.data.frame(cld), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
+#' # ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + theme_void()
+#' # ggplot(as.data.frame(cld), aes(x, y)) + geom_var() + geom_link() + theme_void()
 #' plot(cld)
-#' cld <- cld %>% describe(type = "text", "blabla")
-#' plot(cld)
+#' cld %>% describe(type = "text", "blabla") %>% plot()
+#' cld %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
+#' cld %>% describe(type = "text", "blabla") %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
 plot.cld <- function(cld) {
   cld <- as.data.frame(cld)
   cld <- link_coordinates(cld)
@@ -42,7 +43,7 @@ plot.cld <- function(cld) {
   #     geom_curve(data = links, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = i) }
   # ) + theme_void()
   if("description_ref_mode" %in% cld$type) {
-    gg <- gg + annotate_ref_mode(cld)
+    gg <- gg + annotate_ref_mode(gg, cld)
   }
   if("description_text" %in% cld$type) {
     gg <- gg + annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE), label =  "some text", colour = "dark red", size = 8)
