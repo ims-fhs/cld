@@ -46,7 +46,7 @@ plot.cld <- function(cld) {
     gg <- gg + annotate_ref_mode(gg, cld)
   }
   if("description_text" %in% cld$type) {
-    gg <- gg + annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE), label =  "some text", colour = "dark red", size = 8)
+    gg <- gg + annotate_text(gg, cld)
   }
   gg
 }
