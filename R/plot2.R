@@ -2,7 +2,7 @@
 # https://cran.r-project.org/web/packages/ggplot2/vignettes/extending-ggplot2.html
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
-
+cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
 
 #' plot
 #'
@@ -33,11 +33,12 @@ plot.cld <- function(cld) {
   cld <- link_coordinates(cld)
   cld <- curvature(cld)
   links <- cld[cld$type == "link", ]
-  gg <- ggplot(data = cld, aes(x, y, colour = as.factor(division))) + geom_var() +
+  gg <- ggplot(data = cld, aes(x, y, colour = as.factor(division))) +
     lapply(split(cld, 1:nrow(cld)), function(dat) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
                  arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE) }
-    ) + scale_colour_manual(values = wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]) + theme_void()
+    ) +
+    geom_var() + scale_colour_manual(values = cp) + theme_void()
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
   # ggplot(data = cld, aes(x, y)) + geom_var() +
@@ -45,6 +46,7 @@ plot.cld <- function(cld) {
   #     print(i)
   #     geom_curve(data = links, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = i) }
   # ) + theme_void()
+  gg <- gg + annotate_polarity(gg, cld)
   if("description_ref_mode" %in% cld$type) {
     gg <- gg + annotate_ref_mode(gg, cld)
   }

@@ -45,5 +45,10 @@ annotate_text <- function(gg, cld) {
   col <- cld$division[cld$type == "description_text"]
   text <- cld$description[cld$type == "description_text"]
   assertthat::assert_that(length(text) == 1, msg = paste0("You provided ", length(text), " textual descriptions, whereas annotate_text needs exactly 1 description."))
-  return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE), label =  text, colour = wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)][col], size = 8))
+  return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE), label =  text, colour = cp[col], size = 8))
+}
+
+annotate_polarity <- function(gg, cld) {
+  cld <- cld[cld$type == "link", ]
+  return(ggplot2::annotate("text", x = cld$x, y = cld$y, label =  cld$polarity, colour = cp[cld$division]))
 }
