@@ -30,7 +30,7 @@ describe <- function(cld, type, description, labs = "labs(title = \"\", x = \"\"
 
 add_textual_description <- function(cld, description) {
   assertthat::assert_that("cld" %in% class(cld))
-  description <- data.frame(type = "description_text", description = description, group = max(cld$group), stringsAsFactors = FALSE)
+  description <- data.frame(type = "description_text", description = description, division = max(cld$division), stringsAsFactors = FALSE)
   cld <- merge(cld, description, all = TRUE, sort = FALSE)
   class(cld) <- c("cld", class(cld))
   assertthat::assert_that("cld" %in% class(cld))
@@ -41,7 +41,7 @@ add_ref_mode <- function(cld, str, x = "labs(title = \"\", x = \"\", y = \"\")")
   assertthat::assert_that("cld" %in% class(cld))
   ggplot <- ref_mode_to_ggplot(str)
   ggplot <- paste0(ggplot, " + ", x)
-  description <- data.frame(type = "description_ref_mode", description = ggplot, group = max(cld$group), stringsAsFactors = FALSE)
+  description <- data.frame(type = "description_ref_mode", description = ggplot, division = max(cld$division), stringsAsFactors = FALSE)
   cld <- merge(cld, description, all = TRUE, sort = FALSE)
   class(cld) <- c("cld", class(cld))
   assertthat::assert_that("cld" %in% class(cld))

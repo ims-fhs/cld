@@ -95,7 +95,7 @@ import <- function(file) {
   edges <- edges(mdl)
   cld <- merge(vertices, edges, all = TRUE)
   cld$from <- as.numeric(cld$from)
-  cld$group <- 1L
+  cld$division <- 1L
   class(cld) <- c("cld", class(cld))
   assertthat::assert_that(nrow(cld) >= 3)
   assertthat::assert_that(ncol(cld) == 9)

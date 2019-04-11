@@ -36,6 +36,6 @@ test_that("import works", {
   expect_equal(nrow(cld), 10)
   expect_equal(ncol(cld), 9)
   expect_equal(names(cld), c("type", "id", "x", "y", "label", "from", "to", "polarity",
-                                                   "group"))
+                                                   "division"))
   expect_is(cld, "cld")
 })

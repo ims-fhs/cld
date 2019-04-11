@@ -10,15 +10,15 @@
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' cld %>% link(`energy level`)
 #' cld %>% link(`hours` %->%`energy`)
-#' (cld %>% link(`hours` %->%`energy`))$group
+#' (cld %>% link(`hours` %->%`energy`))$division
 #' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`)
 #' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`)
-#' (cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`))$group
+#' (cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`))$division
 #' cld %>% link(`hours` %->%`energy`) %>% link(`energy`)
-#' (cld %>% link(`hours` %->%`energy`) %>% link(`energy`))$group
+#' (cld %>% link(`hours` %->%`energy`) %>% link(`energy`))$division
 #' # cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
 #' cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`)
-#' sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$group)
+#' sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$division)
 link  <- function(.data, ...) {
   chains <- rlang::enexprs(...)
   indexes <- integer(0)
@@ -26,7 +26,7 @@ link  <- function(.data, ...) {
     chain <- gsub("\\`", "", rlang::as_label(chains[[i]]))
     indexes <- c(indexes, vars(.data, chain), links(.data, chain))
   }
-  .data$group <- group(.data$group, indexes)
+  .data$division <- group(.data$division, indexes)
   return(.data)
   # in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
   # in_group <- gsub("[\"|\`]", "", in_group)
