@@ -1,4 +1,5 @@
 ref_mode_to_ggplot <- function(str) {
+  assertthat::assert_that(!grepl("\"", str), msg = "The ref_mode has not the right format.")
   str_sub <- gsub("[%/]","_",str) #sub all % and / with ""
   str_split <- trimws(strsplit(str_sub,"_")[[1]]) #split by whitespace
   str_corr <- c(str_split,rep(NA,3-length(str_split) %% 3)) #correct length, fill the end with NAs

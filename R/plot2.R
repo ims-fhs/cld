@@ -25,14 +25,14 @@
 #' cld <- cld %>% describe(type = "text", "blabla")
 #' plot(cld)
 plot.cld <- function(cld) {
-  browser()
   cld <- as.data.frame(cld)
   cld <- link_coordinates(cld)
   cld <- curvature(cld)
   links <- cld[cld$type == "link", ]
   gg <- ggplot(data = cld, aes(x, y)) + geom_var() +
     lapply(split(cld, 1:nrow(cld)), function(dat) {
-      geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"]) }
+      geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
+                 arrow = arrow(length = unit(0.03, "npc"))) }
     ) + theme_void()
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
@@ -45,7 +45,7 @@ plot.cld <- function(cld) {
     gg <- gg + annotate_ref_mode(cld)
   }
   if("description_text" %in% cld$type) {
-    gg <- gg + annotate("text", x = mean(cld$x, na.rm = TRUE), y = mean(cld$y, na.rm = TRUE), label =  "some text")
+    gg <- gg + annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE), label =  "some text", colour = "dark red", size = 8)
   }
   gg
 }
