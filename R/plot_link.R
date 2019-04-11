@@ -1,3 +1,24 @@
+position <- function(x_a, y_a, x_b, y_b, x_c, y_c) {
+  ((x_b - x_a) * (y_c - y_a) - (y_b - y_a) * (x_c - x_a))
+}
+
+#' curvature
+#'
+#' @param cld
+#'
+#' @return
+#'
+#' @examples
+#' cld <- curvature(link_coordinates(import("tests/testthat/mdl/burnout.mdl")))
+curvature <- function(cld) {
+  assertthat::assert_that(all(c("from_x", "from_y", "to_x", "to_y") %in% colnames(cld)))
+  cld$curvature <- NA
+  cld$curvature <- position(cld$from_x, cld$from_y, cld$to_x, cld$to_y, cld$x, cld$y)
+  cld$curvature <- -(cld$curvature^.1 - 2)
+  return(cld)
+}
+
+
 #' link_coordinates
 #'
 #' @param cld

@@ -10,3 +10,17 @@ test_that("link_coordinates works.", {
   expect_equal(cld1$to_x[1:2], c(610, 569))
   expect_equal(cld1$to_y[1:2], c(-226, -364))
 })
+
+test_that("curvature works.", {
+  cld <- import("mdl/burnout.mdl")
+  expect_error(curvature(cld))
+  cld <- link_coordinates(cld)
+})
+
+test_that("position works", {
+  expect_equal(position(0,0,0,0,0,0), 0)
+  expect_equal(position(0,0,1,1,1,0), -1)
+  expect_equal(position(0,0,1,1,0,1), 1)
+  expect_equal(sign(position(0,0,1,1,.5,.4)), -1)
+  expect_equal(sign(position(0,0,1,1,.5,.6)), 1)
+})
