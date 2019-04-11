@@ -34,6 +34,7 @@ context("link")
 
 test_that("link works", {
   cld <- import("mdl/burnout.mdl")
+  expect_is(cld %>% link(hours %->% energy), "cld")
   expect_equal((cld %>% link(hours %->% energy))$group, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 2))
   expect_equal((cld %>% link(hours %->% energy) %>% link(energy))$group, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 3))
   expect_equal((cld %>% link(hours %->% energy, perceived %->% energy) %>% link(energy))$group, c(1, 1, 1, 2, 1, 2, 1, 2, 2, 3))
