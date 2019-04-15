@@ -42,7 +42,7 @@ plot.cld <- function(cld) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
                  arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE, family = font_var) }
     ) +
-    geom_var() + scale_colour_manual(values = cp) + theme_void()
+    geom_var() + scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x) - 150, max(cld$x) + 150) + ylim(min(cld$y) - 150, max(cld$y) + 150)
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
   # ggplot(data = cld, aes(x, y)) + geom_var() +
