@@ -3,7 +3,7 @@ StatVar <- ggplot2::ggproto("StatVar",
                             setup_data = function(data, params){
                               data <- data[data$type == "var", ]
                             },
-                            compute_group = function(data, scales, length = 5) {
+                            compute_group = function(data, scales, length = 20) {
                               data$label <- sapply(data$label,
                                                    function(x) {paste0(strwrap(x, width = length),
                                                                        collapse = "\n")})
