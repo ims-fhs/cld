@@ -77,9 +77,12 @@ links <- function(.data, chain) {
   links <- data.frame(from = vars[-length(vars)], to = vars[-1], stringsAsFactors = FALSE)
   links$from <- .data$id[links$from]
   links$to <- .data$id[links$to]
-  matches <- sapply(1:nrow(links), function(x) {.data$from == links$from[x] & .data$to == links$to[x]})
-  matches[, 1] | matches[, 2]
-  return(which(matches[, 1] | matches[, 2]))
+  cond <- logical(nrow(.data))
+  for(i in 1:nrow(links)) {
+    cond <- cond | .data$from %in% links$from[i] & .data$to %in% links$to[i] & .data$type == "link"
+  }
+  # matches <- sapply(1:nrow(links), function(x) {.data$from == links$from[x] & .data$to == links$to[x]})
+  return(which(cond))
 }
 
 #' select_links
