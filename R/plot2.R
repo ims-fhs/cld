@@ -3,6 +3,9 @@
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
 cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
+font_var <- "Permanent Marker"
+font_ref_mode <- "IndieFlower"
+font_description <- "Caveat"
 
 #' plot
 #'
@@ -37,7 +40,7 @@ plot.cld <- function(cld) {
   gg <- ggplot(data = cld, aes(x, y, colour = as.factor(division))) +
     lapply(split(cld, 1:nrow(cld)), function(dat) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
-                 arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE) }
+                 arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE, family = font_var) }
     ) +
     geom_var() + scale_colour_manual(values = cp) + theme_void()
 

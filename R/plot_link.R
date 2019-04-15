@@ -81,8 +81,8 @@ link_coordinates <- function(cld) {
 GeomLink <- ggplot2::ggproto("GeomLink", ggplot2::GeomCurve,
                             required_aes = c("id", "x", "y", "from", "to", "polarity", "type", "group"),
                             default_aes = ggplot2::aes(id = id, x = x, y = y, from = from, to = to, polarity = polarity, type = type, group = group, colour = "black",
-                                                       size = 4, angle = 0, hjust = 0.5, vjust = 0.5,
-                                                       alpha = NA, fontface = 1,
+                                                       angle = 0, hjust = 0.5, vjust = 0.5,
+                                                       alpha = NA, fontface = 2,
                                                        lineheight = 1.2, length = 10),
                             setup_data = function(data, params){
                               data <- link_coordinates(data)
