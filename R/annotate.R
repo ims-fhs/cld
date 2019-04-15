@@ -46,7 +46,7 @@ annotate_text <- function(gg, cld) {
   text <- cld$description[cld$type == "description_text"]
   assertthat::assert_that(length(text) == 1, msg = paste0("You provided ", length(text), " textual descriptions, whereas annotate_text needs exactly 1 description."))
   text <- paste0(strwrap(text, width = 70), collapse = "\n")
-  return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE) - 75, label =  text, colour = cp[col], size = 8, family = font_description))
+  return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE) - 90, label =  text, colour = cp[col], size = 8, family = font_description))
 }
 
 annotate_polarity <- function(gg, cld) {

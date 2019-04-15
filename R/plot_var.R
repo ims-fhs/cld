@@ -26,7 +26,7 @@ stat_var <- function(mapping = NULL, data = NULL, geom = "var",
 GeomVar <- ggplot2::ggproto("GeomVar", ggplot2::GeomText,
                             required_aes = c("x", "y", "label", "type"),
                             default_aes = ggplot2::aes(x = x, y = y, label = label, type = type, colour = "black",
-                                                       size = 4, family = font_var, angle = 0, hjust = 0.5, vjust = 0.5,
+                                                       size = 5, family = font_var, angle = 0, hjust = 0.5, vjust = 0.5,
                                                        alpha = NA, fontface = 1,
                                                        lineheight = 1.2, length = 10))
 
