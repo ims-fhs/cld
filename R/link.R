@@ -12,6 +12,7 @@
 #' cld %>% link(`hours` %->%`energy`)
 #' (cld %>% link(`hours` %->%`energy`))$division
 #' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`)
+#' cld %>% link(`hours` %->%`energy` %->% `accomplishments per week`)
 #' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`)
 #' (cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`))$division
 #' cld %>% link(`hours` %->%`energy`) %>% link(`energy`)
@@ -70,12 +71,15 @@ vars <- function(.data, chain) {
 #' links(cld, "hours %->% energy")
 #' links(cld, "perceived %->% energy")
 #' links(cld, "energy %->% accomplishments per week")
+#' links(cld, "hours %->% energy %->% accomplishments per week")
 links <- function(.data, chain) {
   vars <- vars(.data, chain)
   links <- data.frame(from = vars[-length(vars)], to = vars[-1], stringsAsFactors = FALSE)
   links$from <- .data$id[links$from]
   links$to <- .data$id[links$to]
-  return(which(.data$from %in% links$from & .data$to %in% links$to))
+  matches <- sapply(1:nrow(links), function(x) {.data$from == links$from[x] & .data$to == links$to[x]})
+  matches[, 1] | matches[, 2]
+  return(which(matches[, 1] | matches[, 2]))
 }
 
 #' select_links

@@ -28,6 +28,7 @@ test_that("links works", {
   expect_equal(links(cld, "hours %->% energy"), 6)
   expect_equal(links(cld, "perceived %->% energy"), 4)
   expect_equal(links(cld, "energy %->% accomplishments per week"), 5)
+  expect_equal(links(cld, "hours %->% energy %->% accomplishments per week"), c(5, 6))
 })
 
 context("link")
@@ -38,6 +39,7 @@ test_that("link works", {
   expect_equal((cld %>% link(hours %->% energy))$division, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 2))
   expect_equal((cld %>% link(hours %->% energy) %>% link(energy))$division, c(1, 1, 1, 1, 1, 2, 1, 2, 1, 3))
   expect_equal((cld %>% link(hours %->% energy, perceived %->% energy) %>% link(energy))$division, c(1, 1, 1, 2, 1, 2, 1, 2, 2, 3))
+  expect_equal((cld %>% link(hours %->% energy %->% `accomplishments per week`))$division, c(1, 1, 1, 1, 2, 2, 2, 2, 1, 2))
   expect_error(cld %>% link(`hours` %->% `accomplishments` %->% `perceived` %->% `hours`))
   expect_equal(sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$division), 16)
 })
