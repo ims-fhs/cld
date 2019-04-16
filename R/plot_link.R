@@ -28,11 +28,12 @@ offset_y <- offset_coord(100)
 
 offset <- function(cld) {
   assertthat::assert_that(all(c("from_x", "from_y", "to_x", "to_y") %in% colnames(cld)))
-  library(dplyr)
-  cld$from_x <- cld$from_x + offset_x(cld$from_x, cld$to_x)
-  cld$to_x = cld$to_x - offset_x(cld$from_x, cld$to_x)
-  cld$from_y = cld$from_y + offset_y(cld$from_y, cld$to_y)
-  cld$to_y = cld$to_y - offset_y(cld$from_y, cld$to_y)
+  # cld$from_x <- cld$from_x + offset_x(cld$from_x, cld$to_x)
+  # cld$to_x <- cld$to_x - offset_x(cld$from_x, cld$to_x)
+  # cld$from_y <- cld$from_y + offset_y(cld$from_y, cld$to_y)
+  # cld$to_y <- cld$to_y - offset_y(cld$from_y, cld$to_y)
+
+
   return(cld)
 }
 
