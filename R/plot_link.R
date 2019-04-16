@@ -26,13 +26,43 @@ offset_coord <- function(factor) {
 offset_x <- offset_coord(10)
 offset_y <- offset_coord(100)
 
+
+
+angles <- function(df) {
+  df$theta <- atan2((df$from_y - df$to_y), (df$from_x - df$to_x))
+  df$theta_end <- df$theta + df$curvature * (pi/2)
+  df$theta <- atan2((df$to_y - df$from_y), (df$to_x - df$from_x))
+  df$theta_start <- df$theta - df$curvature * (pi/2)
+  return(df)
+}
+
+
+
+starts <- function(df, r) {
+  df$from_x <- cos(df$theta_start) * r + df$from_x
+  df$from_y <- sin(df$theta_start) * r + df$from_y
+  return(df)
+}
+
+
+
+ends <- function(df, r) {
+  df$to_x <- cos(df$theta_end) * r + df$to_x
+  df$to_y <- sin(df$theta_end) * r + df$to_y
+  return(df)
+}
+
+
 offset <- function(cld) {
   assertthat::assert_that(all(c("from_x", "from_y", "to_x", "to_y") %in% colnames(cld)))
   # cld$from_x <- cld$from_x + offset_x(cld$from_x, cld$to_x)
   # cld$to_x <- cld$to_x - offset_x(cld$from_x, cld$to_x)
   # cld$from_y <- cld$from_y + offset_y(cld$from_y, cld$to_y)
   # cld$to_y <- cld$to_y - offset_y(cld$from_y, cld$to_y)
-
+  cld <- angles(cld)
+  cld <- starts(cld, 30)
+  cld <- ends(cld, 30)
+  cld$curvature <- cld$curvature * 0.9
 
   return(cld)
 }

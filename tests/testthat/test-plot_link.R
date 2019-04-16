@@ -10,7 +10,7 @@ test_that("offset_coord works.", {
 })
 
 test_that("offset works.", {
-  df <- data.frame(from_x = c(0,1,5,5), to_x = c(1,5,5,1), from_y = c(0,5,1,5), to_y = c(5,1,5,5))
+  df <- data.frame(from_x = c(0,1,5,5), to_x = c(1,5,5,1), from_y = c(0,5,1,5), to_y = c(5,1,5,5), curvature = c(-.2,-.5,.1,1))
   df_off <- offset(df)
   expect_true(df_off$from_x[1] > df$from_x[1])
   expect_true(df_off$from_y[1] > df$from_y[1])
