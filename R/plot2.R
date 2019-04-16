@@ -2,7 +2,8 @@
 # https://cran.r-project.org/web/packages/ggplot2/vignettes/extending-ggplot2.html
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
-cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
+# cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
+cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E")
 names(cp) <- 1:length(cp)
 font_var <- "Permanent Marker"
 font_ref_mode <- "IndieFlower"
