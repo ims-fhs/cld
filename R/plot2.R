@@ -3,6 +3,7 @@
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
 cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
+names(cp) <- 1:length(cp)
 font_var <- "Permanent Marker"
 font_ref_mode <- "IndieFlower"
 font_description <- "Caveat"
