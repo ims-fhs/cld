@@ -42,4 +42,8 @@ test_that("link works", {
   expect_equal((cld %>% link(hours %->% energy %->% `accomplishments per week`))$division, c(1, 1, 1, 1, 2, 2, 2, 2, 1, 2))
   expect_error(cld %>% link(`hours` %->% `accomplishments` %->% `perceived` %->% `hours`))
   expect_equal(sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$division), 16)
+  # cld <- import("mdl/flexibilisierung.mdl")
+  # expect_equal(link(cld, `Belastung` %->% `Flexibilisierung der Arbeit` %->% `Private Dinge während der Arbeit` %->% `Belastung`)$division, c(2,2,2,1,1,1,2,2,2,1,1))
+  cld <- import("mdl/flexibilisierung-ae.mdl")
+  expect_equal(link(cld, `Belastung` %->% `Flexibilisierung der Arbeit` %->% `Private Dinge waehrend der Arbeit` %->% `Belastung`)$division, c(2,2,2,1,1,1,2,2,2,1,1))
 })

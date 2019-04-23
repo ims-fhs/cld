@@ -20,11 +20,17 @@
 #' # cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
 #' cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`)
 #' sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$division)
+#' cld <- import("tests/testthat/mdl/flexibilisierung.mdl")
+#' cld %>% link(`Belastung` %->% `Flexibilisierung der Arbeit` %->% `Private Dinge während der Arbeit` %->% `Belastung`)
+#' (cld %>% link(`Belastung` %->% `Flexibilisierung der Arbeit` %->% `Private Dinge während der Arbeit` %->% `Belastung`))$division
 link  <- function(.data, ...) {
-  chains <- rlang::enexprs(...)
+  # chains <- rlang::enexprs(...)
+  # chains <- substitute(...)
+  chains <- match.call(expand.dots = FALSE)$...
   indexes <- integer(0)
   for(i in 1:length(chains)) {
-    chain <- gsub("\\`", "", rlang::as_label(chains[[i]]))
+    chain <- gsub("\\`", "", deparse(chains[[i]], width.cutoff = 200L))
+    # chain <- gsub("\\`", "", rlang::as_label(chains[[i]]))
     indexes <- c(indexes, vars(.data, chain), links(.data, chain))
   }
   .data$division <- group(.data$division, indexes)
@@ -49,8 +55,11 @@ link  <- function(.data, ...) {
 #' vars(cld, "hours %->% energy")
 #' vars(cld, "energy %->% hours")
 #' # vars(cld, "a %->% e")
+#' cld <- import("tests/testthat/mdl/flexibilisierung.mdl")
+#' vars(cld, "Belastung %->% Flexibilisierung der Arbeit %->% Private Dinge während der Arbeit %->% Belastung")
 vars <- function(.data, chain) {
   indexes <- sapply(trimws(unlist(strsplit(chain, "%->%"))), function(i) grep(i, .data$label))
+  print(class(indexes))
   assertthat::assert_that(!class(indexes) == "list", msg = "Link chain contains ambiguous variable names. Not able to resolve.")
   indexes <- as.numeric(indexes)
   assertthat::assert_that(length(indexes) <= nrow(.data))
