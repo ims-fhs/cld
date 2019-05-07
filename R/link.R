@@ -27,13 +27,18 @@ link  <- function(.data, ...) {
   # chains <- rlang::enexprs(...)
   # chains <- substitute(...)
   chains <- match.call(expand.dots = FALSE)$...
-  indexes <- integer(0)
-  for(i in 1:length(chains)) {
-    chain <- gsub("\\`", "", deparse(chains[[i]], width.cutoff = 200L))
-    # chain <- gsub("\\`", "", rlang::as_label(chains[[i]]))
-    indexes <- c(indexes, vars(.data, chain), links(.data, chain))
+  if(!is.null(chains)) {
+    indexes <- integer(0)
+    for(i in 1:length(chains)) {
+      chain <- gsub("\\`", "", deparse(chains[[i]], width.cutoff = 200L))
+      # chain <- gsub("\\`", "", rlang::as_label(chains[[i]]))
+      indexes <- c(indexes, vars(.data, chain), links(.data, chain))
+    }
+    .data$division <- group(.data$division, indexes)
+  } else {
+    .data$division <- .data$division + 1
   }
-  .data$division <- group(.data$division, indexes)
+  indexes <- integer(0)
   return(.data)
   # in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
   # in_group <- gsub("[\"|\`]", "", in_group)

@@ -20,6 +20,7 @@ font_description <- "Caveat"
 #'
 #' @examples
 #' library(ggplot2)
+#' # library(cld)
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' # vars <- cld[cld$type == "var", ]
 #' # ggplot(as.data.frame(vars), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
