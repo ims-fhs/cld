@@ -1,25 +1,27 @@
-#' link
+#' Link cld elements along causal chains. The Causal chains to link are specified
+#' usinng the special infix operator `%->%`. More than one causal chains can be
+#' linked in one call, when provided comma separated.
 #'
-#' @param cld a data.frame containing CLD information
+#' @param cld a CLD
 #'
-#' @return
+#' @return An updated CLD
 #' @export
 #'
 #' @examples
 #' library(magrittr)
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' cld %>% link(`energy level`)
-#' cld %>% link(`hours` %->%`energy`)
-#' (cld %>% link(`hours` %->%`energy`))$division
-#' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`)
-#' cld %>% link(`hours` %->%`energy` %->% `accomplishments per week`)
-#' cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`)
-#' (cld %>% link(`hours` %->%`energy`, `perceived` %->% `energy`) %>% link(`energy`))$division
-#' cld %>% link(`hours` %->%`energy`) %>% link(`energy`)
-#' (cld %>% link(`hours` %->%`energy`) %>% link(`energy`))$division
-#' # cld %>% link(`hours` %->%`accomplishments` %->% `perceived` %->% `hours`)
-#' cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`)
-#' sum((cld %>% link(`hours` %->%`accomplishments per week` %->% `perceived` %->% `hours`))$division)
+#' cld %>% link(`hours` %->% `energy`)
+#' (cld %>% link(`hours` %->% `energy`))$division
+#' cld %>% link(`hours` %->% `energy`, `perceived` %->% `energy`)
+#' cld %>% link(`hours` %->% `energy` %->% `accomplishments per week`)
+#' cld %>% link(`hours` %->% `energy`, `perceived` %->% `energy`) %>% link(`energy`)
+#' (cld %>% link(`hours` %->% `energy`, `perceived` %->% `energy`) %>% link(`energy`))$division
+#' cld %>% link(`hours` %->% `energy`) %>% link(`energy`)
+#' (cld %>% link(`hours` %->% `energy`) %>% link(`energy`))$division
+#' # cld %>% link(`hours` %->% `accomplishments` %->% `perceived` %->% `hours`)
+#' cld %>% link(`hours` %->% `accomplishments per week` %->% `perceived` %->% `hours`)
+#' sum((cld %>% link(`hours` %->% `accomplishments per week` %->% `perceived` %->% `hours`))$division)
 #' cld <- import("tests/testthat/mdl/flexibilisierung.mdl")
 #' cld %>% link(`Belastung` %->% `Flexibilisierung der Arbeit` %->% `Private Dinge während der Arbeit` %->% `Belastung`)
 #' (cld %>% link(`Belastung` %->% `Flexibilisierung der Arbeit` %->% `Private Dinge während der Arbeit` %->% `Belastung`))$division
@@ -40,20 +42,15 @@ link  <- function(.data, ...) {
   }
   indexes <- integer(0)
   return(.data)
-  # in_group <- trimws(strsplit(as.character(dots[[1]])[2], "%->%")[[1]])
-  # in_group <- gsub("[\"|\`]", "", in_group)
-  # .data$selected <- grepl(paste(in_group, collapse = "|"), .data$label)
-  # .data <- select_links(.data)
-  # .data <- igraph::delete_vertices(.data, grep(paste(in_group, collapse = "|"), igraph::V(.data)$name, invert = TRUE, value = TRUE))
-  # .data[ from = igraph::V(.data)$name[length(in_group)], to = igraph::V(.data)$name[1]] <- 0
 }
 
-#' vars
+#' Internal function that identifies the variables present in a causal chain.
+#' Used by 'link' and 'links'.
 #'
-#' @param .data
-#' @param chain
+#' @param .data A cld
+#' @param chain A causal chain
 #'
-#' @return
+#' @return The indexes (ids) of the variables in the causal chain
 #'
 #' @examples
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
@@ -73,12 +70,12 @@ vars <- function(.data, chain) {
 }
 
 
-#' links
+#' Internal function that identifies the links in a causal chain. Used by 'link'.
 #'
-#' @param .data
-#' @param chain
+#' @param .data A cld
+#' @param chain A causal chain, provided as string
 #'
-#' @return
+#' @return The indexes (ids) of the links that are present in the causal chain
 #'
 #' @examples
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
@@ -99,36 +96,15 @@ links <- function(.data, chain) {
   return(which(cond))
 }
 
-#' select_links
-#'
-#' @param .data
-#'
-#' @return
-#'
-#' @examples
-select_links <- function(.data) {
-  vars <- .data[.data$type == "var" & .data$selected, ]
-  links <- .data[.data$type == "link", ]
-  browser()
-  for(i in seq_along(vars$id)) {
-    var_links <- links[links$from == i, ]
-    var_links <- var_links[var_links$to %in% vars$id, ]
-    if ( nrow(var_links) > 0) {
-      var_links$selected <- TRUE
-      .data[.data$id == var_links$id, ] <- var_links
 
-    }
-  }
-  return(.data)
-}
-
-
-#' group
+#' Internal function that updates the division argument of a cld.
+#' 'group' groups the cld elemments specified by 'indexes' so that they form a
+#' new division afterward.
 #'
-#' @param grouping
+#' @param grouping The division column of a cld
 #' @param indexes A vector of indexes that form a new group
 #'
-#' @return
+#' @return The updated division column
 #'
 #' @examples
 #' cld:::group(c(1,1,1,1), c(2,3))
@@ -144,17 +120,20 @@ group <- function(grouping, indexes) {
   new_grouping[indexes] <- max(new_grouping) + 1L
   assertthat::assert_that(sum(new_grouping) > sum(grouping))
   new_grouping <- new_grouping - (min(new_grouping - 1))
+  assertthat::assert_that(length(new_grouping) == length(grouping))
   return(new_grouping)
 }
 
-#' ungroup
+#' Internal function that updates the division argument of a cld.
+#' 'ungroup' resets the division argument for all elements to 1
 #'
-#' @param grouping
+#' @param grouping The division column of a cld
 #'
-#' @return
+#' @return The reset division column
 #'
 #' @examples
 #' cld:::ungroup(c(1,2,3))
+#' cld:::ungroup(c(2,3))
 ungroup <- function(grouping) {
   group(grouping, 1:length(grouping))
 }

@@ -1,12 +1,38 @@
+#' Internal function.
+#' Determines the 'position' of a point c in accordance to the line from point a
+#' to point b. If c is collinear, position returns 0; if c is on the right side,
+#' position is < 0; if c is on the left side, position is > 0
+#' The method is the one to determine, whether three points are collinear.
+#' See for example:
+#' https://stackoverflow.com/questions/3813681/checking-to-see-if-3-points-are-on-the-same-line
+#' https://math.stackexchange.com/questions/701862/how-to-find-if-the-points-fall-in-a-straight-line-or-not
+#'
+#' @param x_a x component of first point
+#' @param y_a y component of first point
+#' @param x_b x component of second point
+#' @param y_b y component of second point
+#' @param x_c x component of the point whose 'position' needs to be determined
+#' @param y_c y component of the point whose 'position' needs to be determined
+#'
+#' @return The position of the third point
+#'
+#' @examples
+#' cld:::position(0,0,1,1,.5,.5)
+#' # 0
+#' cld:::position(0,0,1,1,1,0)
+#' # -1
+#' cld:::position(0,0,1,1,0,1)
+#' # 1
 position <- function(x_a, y_a, x_b, y_b, x_c, y_c) {
   ((x_b - x_a) * (y_c - y_a) - (y_b - y_a) * (x_c - x_a))
 }
 
-#' curvature
+#' Internal function.
+#' Determines the curvature argument of a link.
 #'
-#' @param cld
+#' @param cld A cld
 #'
-#' @return
+#' @return An updated cld
 #'
 #' @examples
 #' cld <- curvature(link_coordinates(import("tests/testthat/mdl/burnout.mdl")))
@@ -39,6 +65,17 @@ angles <- function(df) {
 
 
 
+#' Internal function. Recalculates the startpoints of a link
+#'
+#' @param df A data.frame with columns from_x, from_y, theta_start
+#' @param r The radius around the center of the variable
+#'
+#' @return An updated df
+#'
+#' @examples
+#' cld:::starts(data.frame(from_x = 0, from_y = 0, theta_start = 0), r = 10)
+#' cld:::starts(data.frame(from_x = 0, from_y = 0, theta_start = pi/2), r = 10)
+#' cld:::starts(data.frame(from_x = 0, from_y = 0, theta_start = pi), r = 10)
 starts <- function(df, r) {
   df$from_x <- cos(df$theta_start) * r + df$from_x
   df$from_y <- sin(df$theta_start) * r + df$from_y
@@ -47,6 +84,17 @@ starts <- function(df, r) {
 
 
 
+#' Internal function. Recalculates the endpoints of a link
+#'
+#' @param df A data.frame with columns to_x, to_y, theta_end
+#' @param r The radius around the center of the variable
+#'
+#' @return An updated df
+#'
+#' @examples
+#' cld:::ends(data.frame(to_x = 0, to_y = 0, theta_end = 0), r = 10)
+#' cld:::ends(data.frame(to_x = 0, to_y = 0, theta_end = pi/2), r = 10)
+#' cld:::ends(data.frame(to_x = 0, to_y = 0, theta_end = pi), r = 10)
 ends <- function(df, r) {
   df$to_x <- cos(df$theta_end) * r + df$to_x
   df$to_y <- sin(df$theta_end) * r + df$to_y
@@ -74,11 +122,11 @@ offset <- function(cld) {
 
 
 
-#' link_coordinates
+#' Calculates coordinates of links from the coordinates of the variables they connect.
 #'
-#' @param cld
+#' @param cld A cld
 #'
-#' @return
+#' @return An updated cld with columns from_x, from_y, to_x, to_y
 #'
 #' @examples
 link_coordinates <- function(cld) {
@@ -94,51 +142,30 @@ link_coordinates <- function(cld) {
   return(cld)
 }
 
-# StatLink <- ggplot2::ggproto("StatLink",
-#                             ggplot2::Stat,
+
+# 190702 - Adrian Stämpfli - commented out; not used at the moment.
+# # include type as a required aesthetic mapping in GeomLink
+# GeomLink <- ggplot2::ggproto("GeomLink", ggplot2::GeomCurve,
+#                             required_aes = c("id", "x", "y", "from", "to", "polarity", "type", "group"),
+#                             default_aes = ggplot2::aes(id = id, x = x, y = y, from = from, to = to, polarity = polarity, type = type, group = group, colour = "black",
+#                                                        angle = 0, hjust = 0.5, vjust = 0.5,
+#                                                        alpha = NA, fontface = 2,
+#                                                        lineheight = 1.2, length = 10),
 #                             setup_data = function(data, params){
 #                               data <- link_coordinates(data)
 #                               data <- data[data$type == "link", ]
 #                               print(data)
-#                             },
-#                             compute_group = function(data, scales) {
-#                               print(data)
-#                             }
-# )
+#                             })
 #
-# stat_link <- function(mapping = NULL, data = NULL, geom = "link",
-#                      position = "identity", na.rm = FALSE, show.legend = NA,
-#                      inherit.aes = TRUE, ...) {
-#   ggplot2::layer(
-#     stat = StatLink, data = data, mapping = mapping, geom = geom,
-#     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-#     params = list(na.rm = na.rm, ...)
-#   )
+#
+# geom_link <- function(mapping = ggplot2::aes(x = from_x, y = from_y, xend = to_x, yend = to_y, id = id, from = from, to = to, polarity = polarity, type = type), data = NULL, position = "identity", stat = "identity",
+#                      ..., curvature = 0.5, angle = 90, ncp = 5, arrow = NULL,
+#                      arrow.fill = NULL, lineend = "butt", na.rm = FALSE, show.legend = NA,
+#                      inherit.aes = TRUE)
+# {
+#   ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomLink,
+#                  position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+#                  params = list(arrow = arrow, arrow.fill = arrow.fill,
+#                                curvature = curvature, angle = angle, ncp = ncp,
+#                                lineend = lineend, na.rm = na.rm, ...))
 # }
-#
-
-# include type as a required aesthetic mapping in GeomLink
-GeomLink <- ggplot2::ggproto("GeomLink", ggplot2::GeomCurve,
-                            required_aes = c("id", "x", "y", "from", "to", "polarity", "type", "group"),
-                            default_aes = ggplot2::aes(id = id, x = x, y = y, from = from, to = to, polarity = polarity, type = type, group = group, colour = "black",
-                                                       angle = 0, hjust = 0.5, vjust = 0.5,
-                                                       alpha = NA, fontface = 2,
-                                                       lineheight = 1.2, length = 10),
-                            setup_data = function(data, params){
-                              data <- link_coordinates(data)
-                              data <- data[data$type == "link", ]
-                              print(data)
-                            })
-
-
-geom_link <- function(mapping = ggplot2::aes(x = from_x, y = from_y, xend = to_x, yend = to_y, id = id, from = from, to = to, polarity = polarity, type = type), data = NULL, position = "identity", stat = "identity",
-                     ..., curvature = 0.5, angle = 90, ncp = 5, arrow = NULL,
-                     arrow.fill = NULL, lineend = "butt", na.rm = FALSE, show.legend = NA,
-                     inherit.aes = TRUE)
-{
-  ggplot2::layer(data = data, mapping = mapping, stat = stat, geom = GeomLink,
-                 position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = list(arrow = arrow, arrow.fill = arrow.fill,
-                               curvature = curvature, angle = angle, ncp = ncp,
-                               lineend = lineend, na.rm = na.rm, ...))
-}
