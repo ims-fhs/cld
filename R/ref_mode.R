@@ -35,6 +35,6 @@ ref_mode_to_ggplot <- function(str) {
       e <- paste0(e, " + geom_curve(aes(x = ", df$x[i], ", y =", df$y[i], ", xend = ", x_mid, ", yend = ", y_mid, "), curvature = .2) + geom_curve(aes(x = ", x_mid, ", y =", y_mid, ", xend = ", df$x[i + 1], ", yend = ", df$y[i + 1], "), curvature = -.2)")
     }
   }
-  e <- paste0(e, " + theme(panel.background = element_rect(fill = \"#D9D0D3\"))")
+  e <- paste0(e, " + theme(panel.background = element_rect(fill = cld:::cp[1]))")
   return(e)
 }
