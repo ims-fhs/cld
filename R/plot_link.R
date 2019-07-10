@@ -40,8 +40,10 @@ curvature <- function(cld) {
   assertthat::assert_that(all(c("from_x", "from_y", "to_x", "to_y") %in% colnames(cld)))
   cld$curvature <- NA
   cld$curvature <- position(cld$from_x, cld$from_y, cld$to_x, cld$to_y, cld$x, cld$y)
+  sig <- sign(cld$curvature)
   # cld$curvature <- -(cld$curvature^.1 - 2)
-  cld$curvature <- -(log(cld$curvature^.1) - .5)
+  cld$curvature <- -sig*(log(abs(cld$curvature)^.1) - .5)
+  assertthat::assert_that(sum(is.na(cld$curvature)) == sum(is.na(cld$from)))
   return(cld)
 }
 

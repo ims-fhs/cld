@@ -37,6 +37,7 @@ font_description <- "Caveat"
 #' cld %>% link(`energy` %->% `accomplishments per` %->% `perceived`) %>% link(`perceived`) %>% plot()
 #' cld %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
 #' cld %>% describe(type = "text", "blabla") %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
+#' import("tests/testthat/mdl/cld-adoption.mdl") %>% plot()
 plot.cld <- function(cld) {
   cld <- as.data.frame(cld)
   cld <- link_coordinates(cld)

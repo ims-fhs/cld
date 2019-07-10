@@ -45,7 +45,16 @@ test_that("link_coordinates works.", {
 test_that("curvature works.", {
   cld <- import("mdl/burnout.mdl")
   expect_error(curvature(cld))
+  cld <- as.data.frame(cld)
   cld <- link_coordinates(cld)
+  print(cld$curvature)
+  expect_true(all(curvature(cld)$curvature < 0, na.rm = TRUE))
+  cld <- import("mdl/cld-adoption.mdl")
+  expect_error(curvature(cld))
+  cld <- as.data.frame(cld)
+  cld <- link_coordinates(cld)
+  print(cld$curvature)
+  expect_equal(sign(curvature(cld)$curvature), c(1,1,-1,-1,rep(NA, 3)))
 })
 
 test_that("position works", {
