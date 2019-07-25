@@ -1,8 +1,8 @@
 Package: cld
 Type: Package
 Title: a DSL to Process Causal Loop Diagrams in R
-Version: 0.1.72
-Date: 2019-07-10
+Version: 0.1.73
+Date: 2019-07-25
 Author: Adrian Staempfli
 Maintainer: Adrian Staempfli <adrian.staempfli@fhsg.ch>
 Description: Causal loop diagrams are a valuable tool for the

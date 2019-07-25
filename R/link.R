@@ -54,13 +54,15 @@ link  <- function(.data, ...) {
 #'
 #' @examples
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
-#' vars(cld, "hours %->% energy")
-#' vars(cld, "energy %->% hours")
+#' cld:::vars(cld, "hours %->% energy")
+#' cld:::vars(cld, "Hours %->% Energy")
+#' cld:::vars(cld, "energy %->% hours")
 #' # vars(cld, "a %->% e")
 #' cld <- import("tests/testthat/mdl/flexibilisierung.mdl")
-#' vars(cld, "Belastung %->% Flexibilisierung der Arbeit %->% Private Dinge während der Arbeit %->% Belastung")
+#' cld:::vars(cld, "Belastung %->% Flexibilisierung der Arbeit %->% Private Dinge während der Arbeit %->% Belastung")
+#' cld:::vars(cld, "belastung %->% Flexibilisierung der Arbeit %->% Private Dinge während der Arbeit %->% Belastung")
 vars <- function(.data, chain) {
-  indexes <- sapply(trimws(unlist(strsplit(chain, "%->%"))), function(i) grep(i, .data$label))
+  indexes <- sapply(trimws(unlist(strsplit(chain, "%->%"))), function(i) grep(tolower(i), tolower(.data$label)))
   print(class(indexes))
   assertthat::assert_that(!class(indexes) == "list", msg = "Link chain contains ambiguous variable names. Not able to resolve.")
   indexes <- as.numeric(indexes)
