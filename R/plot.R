@@ -5,6 +5,15 @@
 # cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
 cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
 # cp <- c("#999093", "#7976A5", "#69301E", "#0F0D0E") # palette for printing of master thesis
+
+# cp <- c("#D9D0D3", "#749485", "#446455", "#0F0D0E") # standardisiert
+# cp <- c("#D9D0D3", "#FFE292", "#EDC252", "#0F0D0E") # aktiv
+# cp <- c("#D9D0D3", "#B3BDBC", "#838D8C", "#0F0D0E") # umfassend
+# cp <- c("#D9D0D3", "#C7B19C", "#97816C", "#0F0D0E") # personenzentriert
+
+
+
+
 # image(1:4, 1, as.matrix(1:4), col = cp, ylab = "", xlab = "", xaxt = "n", yaxt = "n", bty = "n")
 names(cp) <- 1:length(cp)
 font_var <- "Permanent Marker"
@@ -49,7 +58,7 @@ plot.cld <- function(cld) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
                  arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE, family = font_var) }
     ) +
-    geom_var() + scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x, na.rm = TRUE) - 150, max(cld$x, na.rm = TRUE) + 150) + ylim(min(cld$y, na.rm = TRUE) - 150, max(cld$y, na.rm = TRUE) + 150)
+    geom_var() + scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x, na.rm = TRUE) - 150, max(cld$x, na.rm = TRUE) + 150) + ylim(min(cld$y, na.rm = TRUE) - 200, max(cld$y, na.rm = TRUE) + 100)
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
   # ggplot(data = cld, aes(x, y)) + geom_var() +

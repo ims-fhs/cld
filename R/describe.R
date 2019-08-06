@@ -57,6 +57,7 @@ add_textual_description <- function(cld, description) {
 add_ref_mode <- function(cld, str, x = "labs(title = \"\", x = \"\", y = \"\")") {
   assertthat::assert_that("cld" %in% class(cld))
   ggplot <- ref_mode_to_ggplot(str)
+  x <- paste0("labs(title = \"\", x = \"Zeit\", y = \"", cld$label[cld$type == "var" & cld$division == max(cld$division)][1], "\")")
   ggplot <- paste0(ggplot, " + ", x)
   description <- data.frame(type = "description_ref_mode", description = ggplot, division = max(cld$division), stringsAsFactors = FALSE)
   cld <- merge(cld, description, all = TRUE, sort = FALSE)
