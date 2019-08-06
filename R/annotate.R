@@ -41,7 +41,7 @@ annotate_ref_mode <- function(gg, cld) {
 #' gg <- ggplot(data = cld, aes(x, y)) + geom_text(aes(label = label))
 #' gg
 #' gg + annotate_text(gg, cld)
-annotate_text <- function(gg, cld) {
+annotate_text <- function(gg, cld, cp) {
   col <- cld$division[cld$type == "description_text"]
   text <- cld$description[cld$type == "description_text"]
   assertthat::assert_that(length(text) == 1, msg = paste0("You provided ", length(text), " textual descriptions, whereas annotate_text needs exactly 1 description."))

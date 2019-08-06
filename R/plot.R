@@ -71,7 +71,7 @@ plot.cld <- function(cld, cp = c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E")) {
     gg <- gg + annotate_ref_mode(gg, cld)
   }
   if("description_text" %in% cld$type) {
-    gg <- gg + annotate_text(gg, cld)
+    gg <- gg + annotate_text(gg, cld, cp)
   }
   gg
 }
