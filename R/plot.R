@@ -47,7 +47,7 @@ font_description <- "Caveat"
 #' cld %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
 #' cld %>% describe(type = "text", "blabla") %>% describe(type = "ref_mode", 0/0 %-% 1/1) %>% plot()
 #' import("tests/testthat/mdl/cld-adoption.mdl") %>% plot()
-plot.cld <- function(cld) {
+plot.cld <- function(cld, cp = c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E")) {
   cld <- as.data.frame(cld)
   cld <- link_coordinates(cld)
   cld <- curvature(cld)
