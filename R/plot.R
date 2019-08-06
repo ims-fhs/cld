@@ -66,9 +66,9 @@ plot.cld <- function(cld, cp = c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E")) {
   #     print(i)
   #     geom_curve(data = links, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = i) }
   # ) + theme_void()
-  gg <- gg + annotate_polarity(gg, cld)
+  gg <- gg + annotate_polarity(gg, cld, cp)
   if("description_ref_mode" %in% cld$type) {
-    gg <- gg + annotate_ref_mode(gg, cld, cp)
+    gg <- gg + annotate_ref_mode(gg, cld)
   }
   if("description_text" %in% cld$type) {
     gg <- gg + annotate_text(gg, cld, cp)
