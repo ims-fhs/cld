@@ -53,5 +53,5 @@ annotate_text <- function(gg, cld, cp) {
 
 annotate_polarity <- function(gg, cld, cp) {
   cld <- cld[cld$type == "link", ]
-  return(ggplot2::annotate("text", x = cld$x, y = cld$y, label =  cld$polarity, colour = cp[cld$division], family = font_var))
+  return(ggplot2::annotate("text", x = cld$x, y = cld$y, label =  cld$polarity, colour = cp[cld$division]))
 }
