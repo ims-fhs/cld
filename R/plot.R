@@ -3,13 +3,17 @@
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
 # cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
-cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
+wesanderson::wes_palette("Chevalier1")[c(1,4)]
+# cp <- c("#C7B19C", "#446455", "#000204", "#000204") # snf palette
+# cp <- c("#FFFFFF", "#C7B19C", "#446455", "#000204") # snf palette
+cp <- c("#D9D0D3", "#000000", "#000000", "#D9D0D3") # printing care visions paper
+# cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
 # cp <- c("#999093", "#7976A5", "#69301E", "#0F0D0E") # palette for printing of master thesis
 # image(1:4, 1, as.matrix(1:4), col = cp, ylab = "", xlab = "", xaxt = "n", yaxt = "n", bty = "n")
 names(cp) <- 1:length(cp)
 font_var <- "Permanent Marker"
-font_ref_mode <- "IndieFlower"
-font_description <- "Caveat"
+font_ref_mode <- "Open Sans"
+font_description <- "Open Sans"
 
 #' plot
 #'
@@ -23,7 +27,7 @@ font_description <- "Caveat"
 #' @examples
 #' library(ggplot2)
 #' library(magrittr)
-#' # library(cld)
+#' library(cld)
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' # vars <- cld[cld$type == "var", ]
 #' # ggplot(as.data.frame(vars), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
