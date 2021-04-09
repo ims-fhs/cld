@@ -73,7 +73,7 @@ loops <- function(mdl) {
 read_mdl <- function(file) {
   mdl <- readLines(file, encoding = "UTF-8")
   mdl <- mdl[lapply(strsplit(mdl, ","), length) >= 13]
-  return(read.table(text = mdl, sep = ",", as.is = TRUE))
+  return(read.table(text = mdl, sep = ",", as.is = TRUE, fill = TRUE)[,1:15])
 }
 
 #' import
