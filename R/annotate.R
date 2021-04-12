@@ -19,7 +19,7 @@
 annotate_ref_mode <- function(gg, cld) {
   ref_mode <- cld$description[cld$type == "description_ref_mode"]
   assertthat::assert_that(length(ref_mode) == 1, msg = paste0("You provided ", length(ref_mode), " ref_modes, whereas annotate_ref_mode needs exactly 1 ref_mode."))
-  return(ggplot2::annotation_custom(ggplot2::ggplotGrob(eval(parse(text = ref_mode))), xmin = mean(cld$x, na.rm = TRUE), ymin = mean(cld$y, na.rm = TRUE)))
+  return(ggplot2::annotation_custom(ggplot2::ggplotGrob(eval(parse(text = ref_mode))), xmin = 1.2*mean(cld$x, na.rm = TRUE), ymin = .15*mean(cld$y, na.rm = TRUE)))
 }
 
 
