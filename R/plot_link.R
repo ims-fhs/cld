@@ -112,8 +112,8 @@ offset <- function(cld) {
   # cld$to_y <- cld$to_y - offset_y(cld$from_y, cld$to_y)
   cld <- angles(cld)
   cld <- starts(cld, 30)
-  cld <- ends(cld, 30)
-  cld$curvature <- cld$curvature * 0.9
+  cld <- ends(cld, 60)
+  cld$curvature <- cld$curvature * .8
 
   return(cld)
 }

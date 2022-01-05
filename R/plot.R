@@ -3,7 +3,7 @@
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
 # cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
-# cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
+cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
 # cp <- c("#999093", "#7976A5", "#69301E", "#0F0D0E") # palette for printing of master thesis
 
 # cp <- c("#D9D0D3", "#749485", "#446455", "#0F0D0E") # standardisiert
@@ -16,9 +16,9 @@
 
 # image(1:4, 1, as.matrix(1:4), col = cp, ylab = "", xlab = "", xaxt = "n", yaxt = "n", bty = "n")
 # names(cp) <- 1:length(cp)
-font_var <- "Permanent Marker"
-font_ref_mode <- "IndieFlower"
-font_description <- "Caveat"
+font_var <- "amatic"
+font_ref_mode <- "amatic"
+font_description <- "open"
 
 #' plot
 #'
