@@ -5,5 +5,4 @@
 man
 *.2mdl
 *.3vm
-inst
-inst/doc
+
