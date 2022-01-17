@@ -5,9 +5,8 @@
     # file.copy("inst/extdata/fonts/Caveat-Bold.ttf", "~/.fonts")
     # file.copy("inst/extdata/fonts/PermanentMarker-Regular.ttf", "~/.fonts")
     # file.copy("inst/extdata/fonts/IndieFlower.ttf", "~/.fonts")
-    file.copy("inst/extdata/fonts/AmaticSC-Bold.ttf", "~/.fonts")
-    file.copy("inst/extdata/fonts/AmaticSC-Regular.ttf", "~/.fonts")
-    file.copy("inst/extdata/fonts/OpenSans-Regular.ttf", "~/.fonts")
+    file.copy("inst/extdata/fonts/AmaticSC.ttf", "~/.fonts")
+    file.copy("inst/extdata/fonts/OpenSans.ttf", "~/.fonts")
 
     system('fc-cache -f ~/.fonts')
   }
@@ -24,9 +23,9 @@
     # font_add_google("Permanent Marker", "permanent")
     # font_add_google("Caveat", "caveat")
     # font_add_google("Indie Flower", "indie")
-    font_add_google("Amatic SC", "amatic")
+    font_add_google("Amatic SC", "AmaticSC")
     # font_add_google("Chelsea Market", "chelsea")
-    font_add_google("Open Sans", "open")
+    font_add_google("Open Sans", "OpenSans")
 
   }
   print(extrafont::fonts())
