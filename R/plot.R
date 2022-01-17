@@ -16,9 +16,9 @@ cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
 
 # image(1:4, 1, as.matrix(1:4), col = cp, ylab = "", xlab = "", xaxt = "n", yaxt = "n", bty = "n")
 # names(cp) <- 1:length(cp)
-font_var <- "amatic"
-font_ref_mode <- "amatic"
-font_description <- "open"
+font_var <- "AmaticSC"
+font_ref_mode <- "AmaticSC"
+font_description <- "OpenSans"
 
 #' plot
 #'

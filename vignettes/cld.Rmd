@@ -31,6 +31,8 @@ Used fonts (till January 2021) have been:
 - Caveat
 - Indie Flower
 - Permanent Marker
+- Amatic SC
+- Open Sans
 
 ## Installation
 
