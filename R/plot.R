@@ -56,9 +56,11 @@ plot.cld <- function(cld, cp = c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E")) {
   gg <- ggplot(data = cld, aes(x, y, colour = as.factor(division))) +
     lapply(split(cld, 1:nrow(cld)), function(dat) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
-                 arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE, family = font_var, face = "bold") }
+                 arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE) }
     ) +
-    geom_var() + scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x, na.rm = TRUE) - 150, max(cld$x, na.rm = TRUE) + 150) + ylim(min(cld$y, na.rm = TRUE) - 200, max(cld$y, na.rm = TRUE) + 100)
+    geom_var(family = font_var, face = "bold") +
+
+  scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x, na.rm = TRUE) - 150, max(cld$x, na.rm = TRUE) + 150) + ylim(min(cld$y, na.rm = TRUE) - 200, max(cld$y, na.rm = TRUE) + 100)
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
   # ggplot(data = cld, aes(x, y)) + geom_var() +
