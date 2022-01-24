@@ -28,6 +28,7 @@ GeomVar <- ggplot2::ggproto("GeomVar", ggplot2::GeomText,
                             default_aes = ggplot2::aes(x = x, y = y, label = label, type = type, colour = "black",
                                                        size = 10, family = font_var, angle = 0, hjust = 0.5, vjust = 0.5,
                                                        alpha = NA, fontface = "bold",
+
                                                        lineheight = 1.2, length = 10))
 
 

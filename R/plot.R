@@ -3,7 +3,11 @@
 # https://rud.is/books/creating-ggplot2-extensions/demystifying-ggplot2.html
 
 # cp <- wesanderson::wes_palette("IsleofDogs1")[c(5,1,2,4)]
-cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
+# wesanderson::wes_palette("Chevalier1")[c(1,4)]
+cp <- c("#C7B19C", "#446455", "#000204", "#000204") # snf palette
+# cp <- c("#FFFFFF", "#C7B19C", "#446455", "#000204") # snf palette
+# cp <- c("#D9D0D3", "#000000", "#000000", "#D9D0D3") # printing care visions paper
+# cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
 # cp <- c("#999093", "#7976A5", "#69301E", "#0F0D0E") # palette for printing of master thesis
 
 # cp <- c("#D9D0D3", "#749485", "#446455", "#0F0D0E") # standardisiert
@@ -19,6 +23,7 @@ cp <- c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E") # original palette
 font_var <- "AmaticSC"
 font_ref_mode <- "AmaticSC"
 font_description <- "OpenSans"
+names(cp) <- 1:length(cp)
 
 #' plot
 #'
@@ -32,7 +37,7 @@ font_description <- "OpenSans"
 #' @examples
 #' library(ggplot2)
 #' library(magrittr)
-#' # library(cld)
+#' library(cld)
 #' cld <- import("tests/testthat/mdl/burnout.mdl")
 #' # vars <- cld[cld$type == "var", ]
 #' # ggplot(as.data.frame(vars), aes(x, y)) + geom_text(aes(label = label)) + theme_void()
@@ -58,9 +63,8 @@ plot.cld <- function(cld, cp = c("#D9D0D3", "#9986A5", "#79402E", "#0F0D0E")) {
       geom_curve(data = dat, aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = dat["curvature"], ,
                  arrow = arrow(length = unit(0.03, "npc")), show.legend = FALSE) }
     ) +
-    geom_var(family = font_var, face = "bold") +
-
   scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x, na.rm = TRUE) - 150, max(cld$x, na.rm = TRUE) + 150) + ylim(min(cld$y, na.rm = TRUE) - 200, max(cld$y, na.rm = TRUE) + 100)
+    geom_var() + scale_colour_manual(values = cp) + theme_void() + xlim(min(cld$x, na.rm = TRUE) - 150, max(cld$x, na.rm = TRUE) + 300) + ylim(min(cld$y, na.rm = TRUE) - 150, max(cld$y, na.rm = TRUE) + 400)
 
     # geom_curve(aes(x = from_x, y = from_y, xend = to_x, yend = to_y), curvature = -0.3) + theme_void()
   # ggplot(data = cld, aes(x, y)) + geom_var() +

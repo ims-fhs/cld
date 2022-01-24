@@ -19,7 +19,7 @@
 annotate_ref_mode <- function(gg, cld) {
   ref_mode <- cld$description[cld$type == "description_ref_mode"]
   assertthat::assert_that(length(ref_mode) == 1, msg = paste0("You provided ", length(ref_mode), " ref_modes, whereas annotate_ref_mode needs exactly 1 ref_mode."))
-  return(ggplot2::annotation_custom(ggplot2::ggplotGrob(eval(parse(text = ref_mode))), xmin = mean(cld$x, na.rm = TRUE), ymin = mean(cld$y, na.rm = TRUE)))
+  return(ggplot2::annotation_custom(ggplot2::ggplotGrob(eval(parse(text = ref_mode))), xmin = 1.2*mean(cld$x, na.rm = TRUE), ymin = .15*mean(cld$y, na.rm = TRUE)))
 }
 
 
@@ -45,10 +45,10 @@ annotate_text <- function(gg, cld, cp) {
   col <- cld$division[cld$type == "description_text"]
   text <- cld$description[cld$type == "description_text"]
   assertthat::assert_that(length(text) == 1, msg = paste0("You provided ", length(text), " textual descriptions, whereas annotate_text needs exactly 1 description."))
-  # text <- paste0(strwrap(text, width = 70), collapse = "\n")
-  text <- paste0(strwrap(text, width = 90), collapse = "\n")
-  return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE) - 150, label =  text, colour = cp[col], size = 5))
-  # return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE) - 90, label =  text, colour = cp[col], size = 8, family = font_description))
+  text <- paste0(strwrap(text, width = 70), collapse = "\n")
+  # text <- paste0(strwrap(text, width = 90), collapse = "\n")
+  # return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE) - 150, label =  text, colour = cp[col], size = 5))
+  return(ggplot2::annotate("text", x = mean(cld$x, na.rm = TRUE), y = min(cld$y, na.rm = TRUE) - 90, label =  text, colour = cp[col], size = 4, family = font_description))
 }
 
 annotate_polarity <- function(gg, cld, cp) {
